@@ -1,4 +1,4 @@
-name: create GitHub release
+name: create release and publish package
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: '@warnermedia'
+          scope: "@warnermedia"
       - run: npm ci
         working-directory: typescript
       - name: Get release tag
@@ -44,3 +44,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           RELEASE_TAG: ${{ steps.get-release-tag.outputs.release-tag }}
+
+  publish-gpr:
+    needs: create-gh-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          scope: "@warnermedia"
+      - run: npm ci
+        working-directory: typescript
+      - run: npm run build
+        working-directory: typescript
+      - run: rm -rf node_modules
+        working-directory: typescript
+      - run: npm ci --production
+        working-directory: typescript
+      - run: cp -r node_modules/ dist/
+        working-directory: typescript
+      - run: npm publish --access public
+        working-directory: typescript
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
