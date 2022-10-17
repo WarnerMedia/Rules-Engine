@@ -1,4 +1,4 @@
-name: release package
+name: create GitHub release
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - run: npm run build
         working-directory: typescript
 
-  release-gh:
+  create-gh-release:
     needs: build
     runs-on: ubuntu-latest
     steps:
