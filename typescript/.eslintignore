@@ -1,0 +1,7 @@
+# Files and directories that will not be linted
+# node_modules will be ignored by default
+
+dist
+.git
+**/*.js
+package-lock.json

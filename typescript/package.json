@@ -1,0 +1,59 @@
+{
+  "name": "@warnermedia/rules-engine",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Next generation rules engine",
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "$(npm bin)/tsc -p tsconfig.json",
+    "build-perf": "$(npm bin)/tsc -p tsconfig.perf.json",
+    "coverage": "npm run test -- --coverage --coverageReporters=json-summary",
+    "coverage-local": "npm run test -- --coverage",
+    "integration-test": "$(npm bin)/jest $(pwd)/test/integration/",
+    "lint-fix": "$(npm bin)/eslint --fix .",
+    "prettier": "$(npm bin)/prettier --write .",
+    "static-analysis": "$(npm bin)/eslint .",
+    "test": "$(npm bin)/jest $(pwd)/test/unit --runInBand",
+    "check-updates": "$(npm bin)/ncu",
+    "make-updates": "$(npm bin)/ncu -u"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "author": "Warner Bros. Discovery",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WarnerMedia/Rules-Engine.git"
+  },
+  "dependencies": {
+    "object-hash": "3.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "28.1.4",
+    "@types/node": "18.0.3",
+    "@types/object-hash": "2.2.1",
+    "@typescript-eslint/eslint-plugin": "5.30.6",
+    "@typescript-eslint/parser": "5.30.6",
+    "eslint": "8.19.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest": "26.5.3",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-security": "1.5.0",
+    "eslint-plugin-simple-import-sort": "7.0.0",
+    "eslint-plugin-unused-imports": "2.0.0",
+    "jest": "28.1.2",
+    "jest-junit": "14.0.0",
+    "npm-check-updates": "15.2.6",
+    "prettier": "2.7.1",
+    "ts-jest": "28.0.5",
+    "typescript": "4.7.4"
+  }
+}
