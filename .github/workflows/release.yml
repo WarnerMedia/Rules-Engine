@@ -1,8 +1,9 @@
-name: publish package
+name: release package
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -19,7 +20,7 @@ jobs:
       - run: npm run build
         working-directory: typescript
 
-  publish-gpr:
+  release-gh:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -28,18 +29,18 @@ jobs:
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com/
-          scope: "@warnermedia"
+          scope: '@warnermedia'
       - run: npm ci
         working-directory: typescript
-      - run: npm run build
+      - name: Get release tag
+        id: get-release-tag
+        shell: bash
+        run: echo "::set-output name=release-tag::v$(jq -r .version package.json)"
         working-directory: typescript
-      - run: rm -rf node_modules
-        working-directory: typescript
-      - run: npm ci --production
-        working-directory: typescript
-      - run: cp -r node_modules/ dist/
-        working-directory: typescript
-      - run: npm publish --access public
+      - name: Create GitHub release
+        shell: bash
+        run: gh release create $RELEASE_TAG
         working-directory: typescript
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          RELEASE_TAG: ${{ steps.get-release-tag.outputs.release-tag }}
