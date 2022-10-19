@@ -40,7 +40,7 @@ jobs:
         run: echo "::set-output name=release-tag::v$(jq -r .version package.json)"
       - name: Create GitHub release
         shell: bash
-        run: gh release create $RELEASE_TAG
+        run: gh release create $RELEASE_TAG-typescript
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           RELEASE_TAG: ${{ steps.get-release-tag.outputs.release-tag }}

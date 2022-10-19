@@ -32,7 +32,7 @@ jobs:
       run: echo "::set-output name=release-tag::v$(grep "version =" build.gradle.kts | cut -d'"' -f2)"
     - name: Create GitHub release
       shell: bash
-      run: gh release create $RELEASE_TAG
+      run: gh release create $RELEASE_TAG-kotlin
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         RELEASE_TAG: ${{ steps.get-release-tag.outputs.release-tag }}
