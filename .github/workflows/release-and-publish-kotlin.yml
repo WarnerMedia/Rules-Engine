@@ -1,0 +1,59 @@
+name: create release and publish package (kotlin)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kotlin
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: 17
+        distribution: temurin
+    - name: Build package
+      run: ./gradlew build
+
+  create-gh-release:
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kotlin
+    steps:
+    - uses: actions/checkout@v3
+    - name: Get release tag
+      id: get-release-tag
+      shell: bash
+      run: echo "::set-output name=release-tag::v$(grep "version =" build.gradle.kts | cut -d'"' -f2)"
+    - name: Create GitHub release
+      shell: bash
+      run: gh release create $RELEASE_TAG-kotlin
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        RELEASE_TAG: ${{ steps.get-release-tag.outputs.release-tag }}
+
+  publish-gpr:
+    needs: create-gh-release
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kotlin
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: 17
+        distribution: temurin
+    - name: Publish package
+      run: ./gradlew publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
