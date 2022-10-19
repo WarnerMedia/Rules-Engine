@@ -37,7 +37,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.warnermedia"
             artifactId = "rulesengine"
-            version = "0.0.1-SNAPSHOT"
+            version = "1.0.0"
 
             from(components["java"])
         }
