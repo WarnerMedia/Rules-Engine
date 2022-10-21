@@ -145,7 +145,6 @@ enum class OperatorType {
 
     fun Any.castToLong(upcast: Boolean): Long? {
         return (this as? Long) ?: run {
-            println("$upcast $this ${this::class}")
             when (upcast) {
                 true -> {
                     when (this) {

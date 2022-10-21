@@ -1,0 +1,34 @@
+{
+  "id": "test-engine",
+  "options": {
+    "evaluationType": "ALL",
+    "sortRulesByPriority": false,
+    "upcastFactValues": true
+  },
+  "rules": [
+    {
+      "id": "test-rule",
+      "conditions": [
+        {
+          "fact": "feature",
+          "operator": {
+            "operatorType": "EQUALS",
+            "operatorValue": 42
+          }
+        }
+      ],
+      "result": {
+        "first": "success-result",
+        "second": "failure-result"
+      },
+      "options": {
+        "conditionJoiner": "OR",
+        "enabled": true,
+        "startTime": -31557014167219200,
+        "endTime": 31556889864403199,
+        "priority": 0
+      },
+      "ruleEvaluationErrorMessage": "rule evaluation error"
+    }
+  ]
+}
