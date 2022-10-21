@@ -1,3 +1,7 @@
 package com.warnermedia.rulesengine
 
-class EngineOptions(val evaluationType: EngineEvaluationType, val sortRulesByPriority: Boolean)
+class EngineOptions(evaluationType: EngineEvaluationType?, sortRulesByPriority: Boolean?, upcastFactValues: Boolean?) {
+    val evaluationType = evaluationType ?: EngineEvaluationType.ALL
+    val sortRulesByPriority = sortRulesByPriority ?: false
+    val upcastFactValues = upcastFactValues ?: false
+}

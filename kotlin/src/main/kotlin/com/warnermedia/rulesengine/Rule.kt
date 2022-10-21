@@ -10,7 +10,7 @@ class Rule(
 ) {
     private val ruleEvaluationErrorMessage = "rule evaluation error"
 
-    fun evaluate(facts: Map<String, Any>): RuleResult {
+    fun evaluate(facts: Map<String, Any>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
             return getSkippedResult()
         }
@@ -23,7 +23,8 @@ class Rule(
 
         return try {
             conditions.forEach {
-                when (val evaluationResult = it.evaluate(facts)) {
+                when (val evaluationResult =
+                    it.evaluate(facts, ConditionEvaluationOptions(ruleEvaluationOptions.upcastFactValues))) {
                     is ConditionResult.Error -> return getErrorResult(evaluationResult.errorMessage)
                     is ConditionResult.Ok -> when (evaluationResult.okValue) {
                         true -> if (options.conditionJoiner == ConditionJoiner.OR) return getSuccessResult()
