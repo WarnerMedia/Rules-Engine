@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.7.20"
-    application
     `maven-publish`
 }
 
@@ -11,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.code.gson:gson:2.9.1")
     testImplementation(kotlin("test"))
 }
 
@@ -37,7 +37,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.warnermedia"
             artifactId = "rulesengine"
-            version = "1.0.0"
+            version = "1.1.0"
 
             from(components["java"])
         }
