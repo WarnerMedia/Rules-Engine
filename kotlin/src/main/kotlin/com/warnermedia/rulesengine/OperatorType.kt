@@ -82,7 +82,7 @@ enum class OperatorType {
         }
     };
 
-    private val badCastErrorMessage = "runtime cast error"
+    val badCastErrorMessage = "runtime cast error"
 
     abstract fun evaluate(
         operatorValue: Any, valueFromFacts: Any, evaluationOptions: ConditionEvaluationOptions

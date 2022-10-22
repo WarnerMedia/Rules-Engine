@@ -1,11 +1,10 @@
 package com.warnermedia.rulesengine
 
-import com.google.gson.GsonBuilder
-import com.google.gson.ToNumberPolicy
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.File
 
-class Engine(val id: String, rules: ArrayList<Rule>, private val options: EngineOptions) {
-    private val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
+class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions) {
+    val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
     fun evaluate(facts: HashMap<String, Any>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
@@ -16,10 +15,9 @@ class Engine(val id: String, rules: ArrayList<Rule>, private val options: Engine
     }
 
     fun saveToFile(path: String) {
-        val gson = GsonBuilder().setPrettyPrinting().setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE).create()
-        val str = gson.toJson(this)
-
-        File(path).writeText(str, Charsets.UTF_8)
+        val mapper = jacksonObjectMapper()
+        val jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this)
+        File(path).writeText(jsonString, Charsets.UTF_8)
     }
 
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
@@ -41,10 +39,9 @@ class Engine(val id: String, rules: ArrayList<Rule>, private val options: Engine
 
     companion object {
         fun readFromFile(path: String): Engine {
-            val gson =
-                GsonBuilder().setPrettyPrinting().setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE).create()
+            val mapper = jacksonObjectMapper()
             val readInString = File(path).readText(Charsets.UTF_8)
-            return gson.fromJson(readInString, Engine::class.java)
+            return mapper.readValue(readInString, Engine::class.java)
         }
     }
 }
