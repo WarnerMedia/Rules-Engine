@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.7.20"
     `maven-publish`
-    kotlin("plugin.serialization") version "1.7.20"
 
 }
 
@@ -13,7 +12,6 @@ repositories {
 
 dependencies {
     implementation("com.google.code.gson:gson:2.9.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
     testImplementation(kotlin("test"))
 }
 

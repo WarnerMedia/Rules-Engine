@@ -4,13 +4,13 @@ import java.time.Instant
 
 class Rule(
     private val id: String,
-    private val conditions: List<Condition>,
+    private val conditions: ArrayList<Condition>,
     private val result: Pair<Any, Any>,
     val options: RuleOptions
 ) {
     private val ruleEvaluationErrorMessage = "rule evaluation error"
 
-    fun evaluate(facts: Map<String, Any>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
+    fun evaluate(facts: HashMap<String, Any>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
             return getSkippedResult()
         }
