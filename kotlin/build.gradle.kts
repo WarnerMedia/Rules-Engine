@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.9.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
     testImplementation(kotlin("test"))
 }
 
@@ -37,7 +37,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.warnermedia"
             artifactId = "rulesengine"
-            version = "1.1.0"
+            version = "1.2.0"
 
             from(components["java"])
         }

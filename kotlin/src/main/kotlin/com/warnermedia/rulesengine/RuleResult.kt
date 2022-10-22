@@ -1,7 +1,7 @@
 package com.warnermedia.rulesengine
 
 sealed class RuleResult {
-    class Success(private val ruleId: String, private val successValue: Any) : RuleResult() {
+    class Success(val ruleId: String, val successValue: Any) : RuleResult() {
         override fun toString(): String {
             return "$ruleId -> SUCCESS: $successValue"
         }
@@ -15,7 +15,7 @@ sealed class RuleResult {
         }
     }
 
-    class Failure(private val ruleId: String, private val failureValue: Any) : RuleResult() {
+    class Failure(val ruleId: String, val failureValue: Any) : RuleResult() {
         override fun toString(): String {
             return "$ruleId -> FAILURE: $failureValue"
         }
@@ -29,13 +29,13 @@ sealed class RuleResult {
         }
     }
 
-    class Skipped(private val ruleId: String) : RuleResult() {
+    class Skipped(val ruleId: String) : RuleResult() {
         override fun toString(): String {
             return "$ruleId -> SKIPPED"
         }
     }
 
-    class Error(private val ruleId: String, private val errorMessage: String) : RuleResult() {
+    class Error(val ruleId: String, val errorMessage: String) : RuleResult() {
         override fun toString(): String {
             return "$ruleId -> ERROR: $errorMessage"
         }

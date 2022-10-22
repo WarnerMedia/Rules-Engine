@@ -1,7 +1,7 @@
 package com.warnermedia.rulesengine
 
-sealed class ExitCriteria() {
-    class EarlyExit(private val ruleResult: RuleResult) : ExitCriteria()
+sealed class ExitCriteria {
+    class EarlyExit(val ruleResult: RuleResult) : ExitCriteria()
 
     class NormalExit : ExitCriteria()
 }

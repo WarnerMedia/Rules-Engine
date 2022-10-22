@@ -3,12 +3,12 @@ package com.warnermedia.rulesengine
 import java.time.Instant
 
 class Rule(
-    private val id: String,
-    private val conditions: ArrayList<Condition>,
-    private val result: Pair<Any, Any>,
+    val id: String,
+    val conditions: ArrayList<Condition>,
+    val result: Pair<Any, Any>,
     val options: RuleOptions
 ) {
-    private val ruleEvaluationErrorMessage = "rule evaluation error"
+    val ruleEvaluationErrorMessage = "rule evaluation error"
 
     fun evaluate(facts: HashMap<String, Any>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
