@@ -13,7 +13,13 @@ internal class EngineTest {
                 Pair("success-result", "failure-result"),
                 RuleOptions(ConditionJoiner.OR, true, null, null, null)
             )
-        ), EngineOptions(EngineEvaluationType.ALL, sortRulesByPriority = false, upcastFactValues = true)
+        ),
+        EngineOptions(
+            EngineEvaluationType.ALL,
+            false,
+            true,
+            UndefinedFactEvaluation.EVALUATE_TO_SKIPPED
+        )
     )
 
     @Test

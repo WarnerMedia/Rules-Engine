@@ -82,8 +82,6 @@ enum class OperatorType {
         }
     };
 
-    val badCastErrorMessage = "runtime cast error"
-
     abstract fun evaluate(
         operatorValue: Any, valueFromFacts: Any, evaluationOptions: ConditionEvaluationOptions
     ): ConditionResult
@@ -184,6 +182,7 @@ enum class OperatorType {
     }
 
     fun Boolean?.getConditionResult(): ConditionResult {
+        val badCastErrorMessage = "runtime cast error"
         return when (this) {
             null -> ConditionResult.Error(badCastErrorMessage)
             else -> ConditionResult.Ok(this)

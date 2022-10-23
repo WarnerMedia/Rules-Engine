@@ -29,9 +29,9 @@ sealed class RuleResult {
         }
     }
 
-    class Skipped(val ruleId: String) : RuleResult() {
+    class Skipped(val ruleId: String, val skipReason: SkipReason) : RuleResult() {
         override fun toString(): String {
-            return "$ruleId -> SKIPPED"
+            return "$ruleId -> SKIPPED: ${skipReason.getSkipMessage()}"
         }
     }
 
