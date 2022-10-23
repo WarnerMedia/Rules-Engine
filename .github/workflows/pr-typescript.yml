@@ -3,7 +3,7 @@ name: build package (typescript)
 on:
   pull_request:
     paths:
-      - typescript/
+      - 'typescript/**'
 
 jobs:
   build:

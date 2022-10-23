@@ -3,7 +3,7 @@ name: build package (kotlin)
 on:
   pull_request:
     paths:
-      - kotlin/
+      - 'kotlin/**'
 
 jobs:
   build:
