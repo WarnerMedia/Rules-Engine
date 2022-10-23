@@ -12,24 +12,32 @@ class Rule(
 
     fun evaluate(facts: HashMap<String, Any>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
-            return getSkippedResult()
+            return getSkippedResult(SkipReason.DISABLED_RULE)
         }
 
         val currentTime = Instant.now().epochSecond
 
         if (currentTime < options.startTime || currentTime > options.endTime) {
-            return getSkippedResult()
+            return getSkippedResult(SkipReason.INACTIVE_RULE)
         }
 
         return try {
             conditions.forEach {
                 when (val evaluationResult =
-                    it.evaluate(facts, ConditionEvaluationOptions(ruleEvaluationOptions.upcastFactValues))) {
-                    is ConditionResult.Error -> return getErrorResult(evaluationResult.errorMessage)
+                    it.evaluate(
+                        facts,
+                        ConditionEvaluationOptions(
+                            ruleEvaluationOptions.upcastFactValues,
+                            ruleEvaluationOptions.undefinedFactEvaluationType
+                        )
+                    )) {
                     is ConditionResult.Ok -> when (evaluationResult.okValue) {
                         true -> if (options.conditionJoiner == ConditionJoiner.OR) return getSuccessResult()
                         false -> if (options.conditionJoiner == ConditionJoiner.AND) return getFailureResult()
                     }
+
+                    is ConditionResult.Skipped -> return getSkippedResult(evaluationResult.skipReason)
+                    is ConditionResult.Error -> return getErrorResult(evaluationResult.errorMessage)
                 }
             }
 
@@ -47,8 +55,8 @@ class Rule(
         return RuleResult.Failure(id, result.second)
     }
 
-    private fun getSkippedResult(): RuleResult.Skipped {
-        return RuleResult.Skipped(id)
+    private fun getSkippedResult(reason: SkipReason): RuleResult.Skipped {
+        return RuleResult.Skipped(id, reason)
     }
 
     private fun getSuccessResult(): RuleResult.Success {

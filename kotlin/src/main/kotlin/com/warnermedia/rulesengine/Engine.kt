@@ -15,9 +15,11 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions)
     }
 
     fun saveToFile(path: String) {
-        val mapper = jacksonObjectMapper()
-        val jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this)
-        File(path).writeText(jsonString, Charsets.UTF_8)
+        File(path).writeText(this.toString(), Charsets.UTF_8)
+    }
+
+    override fun toString(): String {
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this)
     }
 
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
@@ -25,7 +27,10 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions)
     ): Pair<ArrayList<RuleResult>, Boolean> {
         val list = ArrayList<RuleResult>()
         for (item in this) {
-            val result = item.evaluate(facts, RuleEvaluationOptions(engineOptions.upcastFactValues))
+            val result = item.evaluate(
+                facts,
+                RuleEvaluationOptions(engineOptions.upcastFactValues, engineOptions.undefinedFactEvaluationType)
+            )
             list.add(result)
             when (engineOptions.evaluationType) {
                 EngineEvaluationType.FIRST_ERROR -> if (result is RuleResult.Error) return Pair(list, true)
@@ -38,10 +43,15 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions)
     }
 
     companion object {
+        val mapper = jacksonObjectMapper()
+
         fun readFromFile(path: String): Engine {
-            val mapper = jacksonObjectMapper()
-            val readInString = File(path).readText(Charsets.UTF_8)
-            return mapper.readValue(readInString, Engine::class.java)
+            val engineStringRepresentation = File(path).readText(Charsets.UTF_8)
+            return readFromString(engineStringRepresentation)
+        }
+
+        fun readFromString(engineStringRepresentation: String): Engine {
+            return mapper.readValue(engineStringRepresentation, Engine::class.java)
         }
     }
 }
