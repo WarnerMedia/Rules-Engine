@@ -10,7 +10,7 @@ class Rule(
 ) {
     private val ruleEvaluationErrorMessage = "rule evaluation error"
 
-    fun evaluate(facts: HashMap<String, Any>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
+    fun evaluate(facts: HashMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
             return getSkippedResult(SkipReason.DISABLED_RULE)
         }
@@ -38,7 +38,7 @@ class Rule(
         }
     }
 
-    private fun computeResult(facts: HashMap<String, Any>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
+    private fun computeResult(facts: HashMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         conditions.forEach {
             when (
                 val evaluationResult =
