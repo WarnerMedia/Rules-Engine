@@ -3,7 +3,7 @@ package com.warnermedia.rulesengine
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.File
 
-class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions) {
+class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions = EngineOptions()) {
     val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
     fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
