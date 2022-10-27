@@ -22,7 +22,7 @@ internal class EngineTest {
 
     @Test
     fun testSuccessfulResult() {
-        val result = engine.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0, "abc" to null))
+        val result = engine.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
         assertEquals(arrayListOf(RuleResult.Success("good-weather", "good-weather-day")), result.ruleEvaluations)
     }
 
