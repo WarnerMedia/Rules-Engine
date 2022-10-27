@@ -8,9 +8,14 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions)
 
     fun evaluate(facts: HashMap<String, Any>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
+        println(facts.toString())
         return EvaluationResult(
             evaluationResult.first,
-            if (evaluationResult.second) ExitCriteria.EarlyExit(evaluationResult.first.last()) else ExitCriteria.NormalExit()
+            if (evaluationResult.second) {
+                ExitCriteria.EarlyExit(evaluationResult.first.last())
+            } else {
+                ExitCriteria.NormalExit()
+            }
         )
     }
 
@@ -23,13 +28,18 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions)
     }
 
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
-        facts: HashMap<String, Any>, engineOptions: EngineOptions
+        facts: HashMap<String, Any>,
+        engineOptions: EngineOptions
     ): Pair<ArrayList<RuleResult>, Boolean> {
         val list = ArrayList<RuleResult>()
         for (item in this) {
             val result = item.evaluate(
                 facts,
-                RuleEvaluationOptions(engineOptions.upcastFactValues, engineOptions.undefinedFactEvaluationType)
+                RuleEvaluationOptions(
+                    engineOptions.upcastFactValues,
+                    engineOptions.undefinedFactEvaluationType,
+                    engineOptions.storeRuleEvaluationResults
+                )
             )
             list.add(result)
             when (engineOptions.evaluationType) {
