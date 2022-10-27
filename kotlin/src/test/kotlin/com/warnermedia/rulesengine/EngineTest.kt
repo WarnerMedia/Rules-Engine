@@ -14,10 +14,8 @@ internal class EngineTest {
                     Condition("rainfall", Operator(OperatorType.EQUALS, 0))
                 ),
                 Pair("good-weather-day", "work-from-home-day"),
-                RuleOptions(ConditionJoiner.AND)
             )
         ),
-        EngineOptions(storeRuleEvaluationResults = true)
     )
 
     @Test

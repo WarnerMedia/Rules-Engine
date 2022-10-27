@@ -5,8 +5,8 @@ import java.time.Instant
 class Rule(
     val id: String,
     val conditions: ArrayList<Condition>,
-    val result: Pair<Any, Any>,
-    val options: RuleOptions
+    val result: Pair<Any, Any> = Pair(true, false),
+    val options: RuleOptions = RuleOptions()
 ) {
     private val ruleEvaluationErrorMessage = "rule evaluation error"
 
