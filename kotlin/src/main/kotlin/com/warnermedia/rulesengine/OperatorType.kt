@@ -1,17 +1,18 @@
 package com.warnermedia.rulesengine
 
 enum class OperatorType {
-    CONTAINS {
+    CONTAINED_IN {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
             evaluationOptions: ConditionEvaluationOptions
         ): ConditionResult {
             return when (operatorValue) {
-                is Array<*> -> valueFromFacts.castToArray()?.contains(operatorValue)
-                is ArrayList<*> -> valueFromFacts.castToArrayList()?.contains(operatorValue)
-                is HashMap<*, *> -> valueFromFacts.castToHashMap()?.containsKey(operatorValue)
-                is HashSet<*> -> valueFromFacts.castToHashSet()?.contains(operatorValue)
+                is Array<*> -> operatorValue.contains(valueFromFacts)
+                is ArrayList<*> -> operatorValue.contains(valueFromFacts)
+                is HashMap<*, *> -> operatorValue.containsKey(valueFromFacts)
+                is HashSet<*> -> operatorValue.contains(valueFromFacts)
+                is String -> valueFromFacts.castToString()?. let { operatorValue.contains(it) }
                 else -> null
             }.getConditionResult()
         }
