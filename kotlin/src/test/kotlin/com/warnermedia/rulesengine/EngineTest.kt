@@ -5,33 +5,31 @@ import kotlin.test.assertEquals
 
 internal class EngineTest {
     private val engine = Engine(
-        "test-engine",
+        "weather-type-engine",
         arrayListOf(
             Rule(
-                "test-rule",
-                arrayListOf(Condition("feature", Operator(OperatorType.EQUALS, 42))),
-                Pair("success-result", "failure-result"),
-                RuleOptions(ConditionJoiner.OR, true, null, null, null)
+                "good-weather",
+                arrayListOf(
+                    Condition("temperature", Operator(OperatorType.GREATER_THAN, 70)),
+                    Condition("rainfall", Operator(OperatorType.EQUALS, 0))
+                ),
+                Pair("good-weather-day", "work-from-home-day"),
+                RuleOptions(ConditionJoiner.AND)
             )
         ),
-        EngineOptions(
-            EngineEvaluationType.ALL,
-            false,
-            true,
-            UndefinedFactEvaluation.EVALUATE_TO_SKIPPED
-        )
+        EngineOptions(storeRuleEvaluationResults = true)
     )
 
     @Test
     fun testSuccessfulResult() {
-        val result = engine.evaluate(hashMapOf("feature" to 42))
-        assertEquals(arrayListOf(RuleResult.Success("test-rule", "success-result")), result.ruleEvaluations)
+        val result = engine.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
+        assertEquals(arrayListOf(RuleResult.Success("good-weather", "good-weather-day")), result.ruleEvaluations)
     }
 
     @Test
     fun testFailureResult() {
-        val result = engine.evaluate(hashMapOf("feature" to 43))
-        assertEquals(arrayListOf(RuleResult.Failure("test-rule", "failure-result")), result.ruleEvaluations)
+        val result = engine.evaluate(hashMapOf("temperature" to 60, "rainfall" to 0))
+        assertEquals(arrayListOf(RuleResult.Failure("good-weather", "work-from-home-day")), result.ruleEvaluations)
     }
 
     @Test
@@ -39,7 +37,7 @@ internal class EngineTest {
         engine.saveToFile("engine.json")
 
         val engineFromFile = Engine.readFromFile("engine.json")
-        val result = engineFromFile.evaluate(hashMapOf("feature" to 42))
-        assertEquals(arrayListOf(RuleResult.Success("test-rule", "success-result")), result.ruleEvaluations)
+        val result = engineFromFile.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
+        assertEquals(arrayListOf(RuleResult.Success("good-weather", "good-weather-day")), result.ruleEvaluations)
     }
 }

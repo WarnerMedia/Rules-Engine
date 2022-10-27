@@ -1,13 +1,42 @@
 package com.warnermedia.rulesengine
 
 enum class OperatorType {
+    CONTAINS {
+        override fun evaluate(
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
+        ): ConditionResult {
+            return when (operatorValue) {
+                is Array<*> -> valueFromFacts.castToArray()?.contains(operatorValue)
+                is ArrayList<*> -> valueFromFacts.castToArrayList()?.contains(operatorValue)
+                is HashMap<*, *> -> valueFromFacts.castToHashMap()?.containsKey(operatorValue)
+                is HashSet<*> -> valueFromFacts.castToHashSet()?.contains(operatorValue)
+                else -> null
+            }.getConditionResult()
+        }
+    },
+    ENDS_WITH {
+        override fun evaluate(
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
+        ): ConditionResult {
+            return when (operatorValue) {
+                is String -> valueFromFacts.castToString()?.endsWith(operatorValue)
+                else -> null
+            }.getConditionResult()
+        }
+    },
     EQUALS {
         override fun evaluate(
-            operatorValue: Any, valueFromFacts: Any, evaluationOptions: ConditionEvaluationOptions
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
         ): ConditionResult {
             return when (operatorValue) {
                 is Array<*> -> valueFromFacts.castToArray()?.let { it.contentEquals(operatorValue) }
-                is ArrayList<*> -> valueFromFacts.castToList()?.let { it == operatorValue }
+                is ArrayList<*> -> valueFromFacts.castToArrayList()?.let { it == operatorValue }
                 is Boolean -> valueFromFacts.castToBoolean()?.let { it == operatorValue }
                 is Byte -> valueFromFacts.castToByte()?.let { it == operatorValue }
                 is Char -> valueFromFacts.castToChar()?.let { it == operatorValue }
@@ -15,7 +44,8 @@ enum class OperatorType {
                     ?.let { it == operatorValue }
 
                 is Float -> valueFromFacts.castToFloat()?.let { it == operatorValue }
-                is HashMap<*, *> -> valueFromFacts.castToMap()?.let { it == operatorValue }
+                is HashMap<*, *> -> valueFromFacts.castToHashMap()?.let { it == operatorValue }
+                is HashSet<*> -> valueFromFacts.castToHashSet()?.let { it == operatorValue }
                 is Int -> valueFromFacts.castToInt(evaluationOptions.upcastFactValues)?.let { it == operatorValue }
                 is Long -> valueFromFacts.castToLong(evaluationOptions.upcastFactValues)?.let { it == operatorValue }
                 is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it == operatorValue }
@@ -26,7 +56,9 @@ enum class OperatorType {
     },
     GREATER_THAN {
         override fun evaluate(
-            operatorValue: Any, valueFromFacts: Any, evaluationOptions: ConditionEvaluationOptions
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
         ): ConditionResult {
             return when (operatorValue) {
                 is Byte -> valueFromFacts.castToByte()?.let { it > operatorValue }
@@ -41,32 +73,32 @@ enum class OperatorType {
             }.getConditionResult()
         }
     },
-    NOT_EQUALS {
+    GREATER_THAN_EQUALS {
         override fun evaluate(
-            operatorValue: Any, valueFromFacts: Any, evaluationOptions: ConditionEvaluationOptions
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
         ): ConditionResult {
             return when (operatorValue) {
-                is Array<*> -> valueFromFacts.castToArray()?.let { !it.contentEquals(operatorValue) }
-                is ArrayList<*> -> valueFromFacts.castToList()?.let { it != operatorValue }
-                is Boolean -> valueFromFacts.castToBoolean()?.let { it != operatorValue }
-                is Byte -> valueFromFacts.castToByte()?.let { it != operatorValue }
-                is Char -> valueFromFacts.castToChar()?.let { it != operatorValue }
+                is Byte -> valueFromFacts.castToByte()?.let { it >= operatorValue }
+                is Char -> valueFromFacts.castToChar()?.let { it >= operatorValue }
                 is Double -> valueFromFacts.castToDouble(evaluationOptions.upcastFactValues)
-                    ?.let { it != operatorValue }
+                    ?.let { it >= operatorValue }
 
-                is Float -> valueFromFacts.castToFloat()?.let { it != operatorValue }
-                is HashMap<*, *> -> valueFromFacts.castToMap()?.let { it != operatorValue }
-                is Int -> valueFromFacts.castToInt(evaluationOptions.upcastFactValues)?.let { it != operatorValue }
-                is Long -> valueFromFacts.castToLong(evaluationOptions.upcastFactValues)?.let { it != operatorValue }
-                is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it != operatorValue }
-                is String -> valueFromFacts.castToString()?.let { it != operatorValue }
+                is Float -> valueFromFacts.castToFloat()?.let { it >= operatorValue }
+                is Int -> valueFromFacts.castToInt(evaluationOptions.upcastFactValues)?.let { it >= operatorValue }
+                is Long -> valueFromFacts.castToLong(evaluationOptions.upcastFactValues)?.let { it >= operatorValue }
+                is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it >= operatorValue }
+                is String -> valueFromFacts.castToString()?.let { it >= operatorValue }
                 else -> null
             }.getConditionResult()
         }
     },
     LESS_THAN {
         override fun evaluate(
-            operatorValue: Any, valueFromFacts: Any, evaluationOptions: ConditionEvaluationOptions
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
         ): ConditionResult {
             return when (operatorValue) {
                 is Byte -> valueFromFacts.castToByte()?.let { it < operatorValue }
@@ -80,14 +112,67 @@ enum class OperatorType {
                 else -> null
             }.getConditionResult()
         }
+    },
+    LESS_THAN_EQUALS {
+        override fun evaluate(
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
+        ): ConditionResult {
+            return when (operatorValue) {
+                is Byte -> valueFromFacts.castToByte()?.let { it <= operatorValue }
+                is Char -> valueFromFacts.castToChar()?.let { it <= operatorValue }
+                is Double -> valueFromFacts.castToDouble(evaluationOptions.upcastFactValues)
+                    ?.let { it <= operatorValue }
+
+                is Float -> valueFromFacts.castToFloat()?.let { it <= operatorValue }
+                is Int -> valueFromFacts.castToInt(evaluationOptions.upcastFactValues)?.let { it <= operatorValue }
+                is Long -> valueFromFacts.castToLong(evaluationOptions.upcastFactValues)?.let { it <= operatorValue }
+                is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it <= operatorValue }
+                is String -> valueFromFacts.castToString()?.let { it <= operatorValue }
+                else -> null
+            }.getConditionResult()
+        }
+    },
+    NOT_EQUALS {
+        override fun evaluate(
+            operatorValue: Any,
+            valueFromFacts: Any,
+            evaluationOptions: ConditionEvaluationOptions
+        ): ConditionResult {
+            return when (operatorValue) {
+                is Array<*> -> valueFromFacts.castToArray()?.let { !it.contentEquals(operatorValue) }
+                is ArrayList<*> -> valueFromFacts.castToArrayList()?.let { it != operatorValue }
+                is Boolean -> valueFromFacts.castToBoolean()?.let { it != operatorValue }
+                is Byte -> valueFromFacts.castToByte()?.let { it != operatorValue }
+                is Char -> valueFromFacts.castToChar()?.let { it != operatorValue }
+                is Double -> valueFromFacts.castToDouble(evaluationOptions.upcastFactValues)
+                    ?.let { it != operatorValue }
+
+                is Float -> valueFromFacts.castToFloat()?.let { it != operatorValue }
+                is HashMap<*, *> -> valueFromFacts.castToHashMap()?.let { it != operatorValue }
+                is HashSet<*> -> valueFromFacts.castToHashSet()?.let { it != operatorValue }
+                is Int -> valueFromFacts.castToInt(evaluationOptions.upcastFactValues)?.let { it != operatorValue }
+                is Long -> valueFromFacts.castToLong(evaluationOptions.upcastFactValues)?.let { it != operatorValue }
+                is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it != operatorValue }
+                is String -> valueFromFacts.castToString()?.let { it != operatorValue }
+                else -> null
+            }.getConditionResult()
+        }
     };
 
     abstract fun evaluate(
-        operatorValue: Any, valueFromFacts: Any, evaluationOptions: ConditionEvaluationOptions
+        operatorValue: Any,
+        valueFromFacts: Any,
+        evaluationOptions: ConditionEvaluationOptions
     ): ConditionResult
 
     fun Any.castToArray(): Array<*>? {
         return this as? Array<*>
+    }
+
+    fun Any.castToArrayList(): ArrayList<*>? {
+        return this as? ArrayList<*>
     }
 
     fun Any.castToBoolean(): Boolean? {
@@ -121,6 +206,14 @@ enum class OperatorType {
         return this as? Float
     }
 
+    fun Any.castToHashMap(): HashMap<*, *>? {
+        return this as? HashMap<*, *>
+    }
+
+    fun Any.castToHashSet(): HashSet<*>? {
+        return this as? HashSet<*>
+    }
+
     fun Any.castToInt(upcast: Boolean): Int? {
         return (this as? Int) ?: run {
             when (upcast) {
@@ -135,10 +228,6 @@ enum class OperatorType {
                 false -> null
             }
         }
-    }
-
-    fun Any.castToList(): List<*>? {
-        return this as? List<*>
     }
 
     fun Any.castToLong(upcast: Boolean): Long? {
@@ -156,10 +245,6 @@ enum class OperatorType {
                 false -> null
             }
         }
-    }
-
-    fun Any.castToMap(): Map<*, *>? {
-        return this as? Map<*, *>
     }
 
     fun Any.castToShort(upcast: Boolean): Short? {
