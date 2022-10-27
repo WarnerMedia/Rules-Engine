@@ -8,7 +8,6 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions)
 
     fun evaluate(facts: HashMap<String, Any>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
-        println(facts.toString())
         return EvaluationResult(
             evaluationResult.first,
             if (evaluationResult.second) {
