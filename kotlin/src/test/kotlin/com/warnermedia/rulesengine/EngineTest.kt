@@ -13,9 +13,9 @@ internal class EngineTest {
                     Condition("temperature", Operator(OperatorType.GREATER_THAN, 70)),
                     Condition("rainfall", Operator(OperatorType.EQUALS, 0))
                 ),
-                Pair("good-weather-day", "work-from-home-day"),
+                Pair("good-weather-day", "work-from-home-day")
             )
-        ),
+        )
     )
 
     @Test
