@@ -6,7 +6,7 @@ import java.io.File
 class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions) {
     val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
-    fun evaluate(facts: HashMap<String, Any>): EvaluationResult {
+    fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
         return EvaluationResult(
             evaluationResult.first,
@@ -27,7 +27,7 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions)
     }
 
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
-        facts: HashMap<String, Any>,
+        facts: HashMap<String, Any?>,
         engineOptions: EngineOptions
     ): Pair<ArrayList<RuleResult>, Boolean> {
         val list = ArrayList<RuleResult>()

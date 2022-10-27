@@ -4,7 +4,10 @@ class Condition(
     val fact: String,
     val operator: Operator
 ) {
-    fun evaluate(facts: HashMap<String, Any>, conditionEvaluationOptions: ConditionEvaluationOptions): ConditionResult {
+    fun evaluate(
+        facts: HashMap<String, Any?>,
+        conditionEvaluationOptions: ConditionEvaluationOptions
+    ): ConditionResult {
         val valueFromFacts = facts[fact] ?: return when (conditionEvaluationOptions.undefinedFactEvaluationType) {
             UndefinedFactEvaluation.EVALUATE_TO_TRUE -> ConditionResult.Ok(true)
             UndefinedFactEvaluation.EVALUATE_TO_FALSE -> ConditionResult.Ok(false)
