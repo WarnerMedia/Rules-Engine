@@ -1,18 +1,18 @@
-name: 'check PR title'
+name: 'validate PR title'
 on:
-    pull_request:
-        types:
-            - opened
-            - edited
-            - synchronize
-            - labeled
-            - unlabeled
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - unlabeled
 
 jobs:
-    check:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: satvik-s/pr-title-check
-              with:
-                  pattern: '(fix|feat|chore|docs|style|refactor|perf|test): (\S| )+'
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: satvik-s/pr-title-check
+        with:
+          pattern: '(fix|feat|chore|docs|style|refactor|perf|test): (\S| )+'
