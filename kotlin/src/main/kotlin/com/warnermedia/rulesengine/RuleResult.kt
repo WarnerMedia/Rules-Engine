@@ -1,21 +1,13 @@
 package com.warnermedia.rulesengine
 
-sealed class RuleResult {
-    class Success(val ruleId: String, val successValue: Any) : RuleResult() {
+sealed class RuleResult(val ruleId: String) {
+    class Error(ruleId: String, val errorMessage: String) : RuleResult(ruleId) {
         override fun toString(): String {
-            return "$ruleId -> SUCCESS: $successValue"
-        }
-
-        override fun equals(other: Any?): Boolean {
-            return other is Success && this.successValue == other.successValue
-        }
-
-        override fun hashCode(): Int {
-            return successValue.hashCode()
+            return "$ruleId -> ERROR: $errorMessage"
         }
     }
 
-    class Failure(val ruleId: String, val failureValue: Any) : RuleResult() {
+    class Failure(ruleId: String, val failureValue: Any) : RuleResult(ruleId) {
         override fun toString(): String {
             return "$ruleId -> FAILURE: $failureValue"
         }
@@ -29,15 +21,39 @@ sealed class RuleResult {
         }
     }
 
-    class Skipped(val ruleId: String, val skipReason: SkipReason) : RuleResult() {
+    class Skipped(ruleId: String, val skipReason: SkipReason) : RuleResult(ruleId) {
         override fun toString(): String {
             return "$ruleId -> SKIPPED: ${skipReason.getSkipMessage()}"
         }
     }
 
-    class Error(val ruleId: String, val errorMessage: String) : RuleResult() {
+    class Success(ruleId: String, val successValue: Any) : RuleResult(ruleId) {
         override fun toString(): String {
-            return "$ruleId -> ERROR: $errorMessage"
+            return "$ruleId -> SUCCESS: $successValue"
         }
+
+        override fun equals(other: Any?): Boolean {
+            return other is Success && this.successValue == other.successValue
+        }
+
+        override fun hashCode(): Int {
+            return successValue.hashCode()
+        }
+    }
+
+    fun isError(): Boolean {
+        return this is Error
+    }
+
+    fun isFailure(): Boolean {
+        return this is Failure
+    }
+
+    fun isSkipped(): Boolean {
+        return this is Skipped
+    }
+
+    fun isSuccess(): Boolean {
+        return this is Success
     }
 }
