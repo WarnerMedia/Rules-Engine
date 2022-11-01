@@ -37,5 +37,9 @@ If using Gradle (kotlin DSL), add the following to the `repositories`:
     }
 ```
 
-Initial Contributions from:
+For more information about using GitHub Packages registry, go
+[here](https://docs.github.com/en/packages/working-with-a-github-packages-registry)
+
+## Initial Contributors
+
 - [Satvik Shukla](https://github.com/satvik-s)
