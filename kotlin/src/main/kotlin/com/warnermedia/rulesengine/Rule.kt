@@ -50,8 +50,8 @@ class Rule(
                         facts,
                         ConditionEvaluationOptions(
                             ruleEvaluationOptions.upcastFactValues,
-                            ruleEvaluationOptions.undefinedFactEvaluationType
-                        )
+                            ruleEvaluationOptions.undefinedFactEvaluationType,
+                        ),
                     )
             ) {
                 is ConditionResult.Ok -> when (evaluationResult.okValue) {

@@ -12,11 +12,12 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions 
     fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
         return EvaluationResult(
-            evaluationResult.first, if (evaluationResult.second) {
+            evaluationResult.first,
+            if (evaluationResult.second) {
                 ExitCriteria.EarlyExit(evaluationResult.first.last())
             } else {
                 ExitCriteria.NormalExit
-            }
+            },
         )
     }
 
@@ -34,11 +35,12 @@ class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions 
         val list = ArrayList<RuleResult>()
         for (item in this) {
             val result = item.evaluate(
-                facts, RuleEvaluationOptions(
+                facts,
+                RuleEvaluationOptions(
                     engineOptions.upcastFactValues,
                     engineOptions.undefinedFactEvaluationType,
-                    engineOptions.storeRuleEvaluationResults
-                )
+                    engineOptions.storeRuleEvaluationResults,
+                ),
             )
             list.add(result)
             when (engineOptions.evaluationType) {
