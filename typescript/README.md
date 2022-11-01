@@ -48,7 +48,10 @@ Add the following to `.npmrc`:
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-Initial Contributions from:
+For more information about using GitHub Packages registry, go
+[here](https://docs.github.com/en/packages/working-with-a-github-packages-registry)
+
+## Initial Contributors
 
 - [Satvik Shukla](https://github.com/satvik-s)
 - [Samed Ozdemir](https://github.com/xsor-hbo)
