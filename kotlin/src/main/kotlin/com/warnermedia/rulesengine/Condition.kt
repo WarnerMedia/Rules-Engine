@@ -1,5 +1,8 @@
 package com.warnermedia.rulesengine
 
+/**
+ * Class defining results from boolean operations like equals, greater than, etc.
+ */
 class Condition(
     val fact: String,
     val operator: Operator

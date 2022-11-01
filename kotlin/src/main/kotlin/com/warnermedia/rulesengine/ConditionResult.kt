@@ -1,5 +1,8 @@
 package com.warnermedia.rulesengine
 
+/**
+ * Class defining the possible outputs of a condition evaluation
+ */
 sealed class ConditionResult {
     class Error(val errorMessage: String) : ConditionResult() {
         override fun toString(): String {

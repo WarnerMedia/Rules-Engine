@@ -1,12 +1,23 @@
-### SUMMARY
+* **Please check if the PR fulfills these requirements**
+- [ ] The commit message follows our guidelines
+- [ ] Tests for the changes have been added (for bug fixes / features)
+- [ ] Docs have been added / updated (for bug fixes / features)
 
-_Add a brief summary of the changes if it's not obvious from the issue titles._
 
-### DETAILS
+* **What kind of change does this PR introduce?** (Bug fix, feature, docs update, ...)
 
-_Please add any additional context or documentation for reviewers and maintainers of this change, including links to relevant peer review documents._
 
-### CHECKLIST
-- [ ] Documentation updated (if needed)
-- [ ] Unit tests exist to cover the code you are changing and validated
-- [ ] Integration tests exist to cover the code you are changing and validated
+
+* **What is the current behavior?** (You can also link to an open issue here)
+
+
+
+* **What is the new behavior (if this is a feature change)?**
+
+
+
+* **Does this PR introduce a breaking change?** (What changes might users need to make in their application due to this PR?)
+
+
+
+* **Other information**:
