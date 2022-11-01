@@ -1,5 +1,8 @@
 package com.warnermedia.rulesengine
 
+/**
+ * Class defining set of options to change behavior of a rule
+ */
 class RuleOptions(
     val conditionJoiner: ConditionJoiner = ConditionJoiner.AND,
     val enabled: Boolean = true,

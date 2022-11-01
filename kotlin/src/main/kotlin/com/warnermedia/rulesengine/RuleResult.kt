@@ -1,5 +1,8 @@
 package com.warnermedia.rulesengine
 
+/**
+ * Class defining the possible outputs of a rule evaluation
+ */
 sealed class RuleResult(val ruleId: String) {
     class Error(ruleId: String, val errorMessage: String) : RuleResult(ruleId) {
         override fun toString(): String {

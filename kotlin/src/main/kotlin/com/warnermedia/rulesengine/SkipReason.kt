@@ -1,5 +1,8 @@
 package com.warnermedia.rulesengine
 
+/**
+ * Enum class defining possible reasons to skip runtime evaluation
+ */
 enum class SkipReason {
     DISABLED_RULE {
         override fun getSkipMessage() = "rule is not enabled"

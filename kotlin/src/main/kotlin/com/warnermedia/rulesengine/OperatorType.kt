@@ -1,5 +1,8 @@
 package com.warnermedia.rulesengine
 
+/**
+ * Enum defining possible operators supported to use when creating a condition
+ */
 enum class OperatorType {
     CONTAINED_IN {
         override fun evaluate(
@@ -12,7 +15,7 @@ enum class OperatorType {
                 is ArrayList<*> -> operatorValue.contains(valueFromFacts)
                 is HashMap<*, *> -> operatorValue.containsKey(valueFromFacts)
                 is HashSet<*> -> operatorValue.contains(valueFromFacts)
-                is String -> valueFromFacts.castToString()?. let { operatorValue.contains(it) }
+                is String -> valueFromFacts.castToString()?.let { operatorValue.contains(it) }
                 else -> null
             }.getConditionResult()
         }
