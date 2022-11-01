@@ -8,7 +8,7 @@ Next generation rules engine - `Rules-Engine` is written in TypeScript.
 
 Requires:
 
--   [Node 16](https://nodejs.org/download/release/v16.14.2/)
+- [Node 16](https://nodejs.org/download/release/v16.14.2/)
 
 ### Relevant commands
 
@@ -50,5 +50,5 @@ Add the following to `.npmrc`:
 
 Initial Contributions from:
 
--   [Satvik Shukla](https://github.com/satvik-s)
--   [Samed Ozdemir](https://github.com/xsor-hbo)
+- [Satvik Shukla](https://github.com/satvik-s)
+- [Samed Ozdemir](https://github.com/xsor-hbo)

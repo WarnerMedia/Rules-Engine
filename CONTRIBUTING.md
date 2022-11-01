@@ -121,8 +121,8 @@ greatly appreciated.
 Conventional commits are followed. More [here](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 
 ## Join The Project Team
--   [Satvik Shukla](https://github.com/satvik-s)
--   [Samed Ozdemir](https://github.com/xsor-hbo)
+- [Satvik Shukla](https://github.com/satvik-s)
+- [Samed Ozdemir](https://github.com/xsor-hbo)
 
 <!-- omit in toc -->
 ## Attribution
