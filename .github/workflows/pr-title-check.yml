@@ -16,4 +16,4 @@ jobs:
       - name: PR Title Verify
         uses: satvik-s/pr-title-check@1.0.1
         with:
-          pattern: '(fix|feat|chore|docs|style|refactor|perf|test): (?:\w+\b\W*){3,8}$'
+          pattern: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])+([\s\S]*)'
