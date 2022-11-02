@@ -4,13 +4,12 @@
 - [ ] Docs/Chore
 - [ ] Support
 
-## Expected Behavior
+## Issue Description
 
-## Actual Behavior
 
-## Steps to Reproduce the Problem
+## Steps to Reproduce the Problem (applicable for a bug)
 
--
+- 
 
 ## Specifications
 
