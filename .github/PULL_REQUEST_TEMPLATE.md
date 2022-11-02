@@ -1,23 +1,14 @@
-* **Please check if the PR fulfills these requirements**
-- [ ] The commit message follows our guidelines
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+## Change Description
 
 
-* **What kind of change does this PR introduce?** (Bug fix, feature, docs update, ...)
+## All Submissions:
 
+- [ ] Have you followed the guidelines in our Contributing document?
+- [ ] Have you checked to ensure there aren't other open [Pull Requests](../../../pulls) for the same update/change?
+- [ ] Have you added an explanation of what your changes do and why you'd like us to include them?
 
+## Code Changes:
 
-* **What is the current behavior?** (You can also link to an open issue here)
-
-
-
-* **What is the new behavior (if this is a feature change)?**
-
-
-
-* **Does this PR introduce a breaking change?** (What changes might users need to make in their application due to this PR?)
-
-
-
-* **Other information**:
+- [ ] Is there an open issue for the change?
+- [ ] Have you linked the PR to the open issue?
+- [ ] Have you written new tests for your changes, as applicable?
