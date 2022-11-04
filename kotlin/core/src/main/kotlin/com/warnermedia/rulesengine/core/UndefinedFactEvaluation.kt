@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 /**
  * Enum defining how to evaluate a runtime fact that is not defined

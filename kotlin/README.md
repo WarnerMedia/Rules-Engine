@@ -19,7 +19,7 @@ Build the library
 $ ./gradlew build
 ```
 
-## Using the implementation
+## Installing the package(s)
 
 Follow the steps mentioned in the [parent README](https://github.com/WarnerMedia/Rules-Engine#using-the-implementations)
 first. 
@@ -48,6 +48,8 @@ To allow for JSON persistence capability, add the following in addition to the a
 ```kotlin
     implementation("com.warnermedia.rulesengine:rulesengine-jsonadapter:<version>")
 ```
+
+For more examples, look [here](https://github.com/WarnerMedia/Rules-Engine/tree/main/kotlin/docs/examples)
 
 ## Initial Contributors
 

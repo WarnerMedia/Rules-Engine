@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 /**
  * Enum class defining possible reasons to skip runtime evaluation
