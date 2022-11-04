@@ -37,8 +37,17 @@ If using Gradle (kotlin DSL), add the following to the `repositories`:
     }
 ```
 
-For more information about using GitHub Packages registry, go
-[here](https://docs.github.com/en/packages/working-with-a-github-packages-registry)
+Then, add the following to `dependencies`:
+
+```kotlin
+    implementation("com.warnermedia.rulesengine:rulesengine-core:<version>")
+```
+
+To allow for JSON persistence capability, add the following in addition to the above:
+
+```kotlin
+    implementation("com.warnermedia.rulesengine:rulesengine-jsonadapter:<version>")
+```
 
 ## Initial Contributors
 
