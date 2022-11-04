@@ -1,9 +1,10 @@
-package core
+package jsonadapter
 
+import core.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class EngineTest {
+internal class AdapterTest {
     private val engine = Engine(
         "weather-type-engine",
         arrayListOf(
@@ -19,19 +20,12 @@ internal class EngineTest {
     )
 
     @Test
-    fun testSuccessfulResult() {
-        val result = engine.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
+    fun testPersistence() {
+        Adapter.saveToFile(engine, "engine.json")
+        val engineFromFile = Adapter.readFromFile("engine.json")
+        val result = engineFromFile.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
         assertEquals<ArrayList<RuleResult>>(
             arrayListOf(RuleResult.Success("good-weather", "good-weather-day")),
-            result.ruleEvaluations,
-        )
-    }
-
-    @Test
-    fun testFailureResult() {
-        val result = engine.evaluate(hashMapOf("temperature" to 60, "rainfall" to 0))
-        assertEquals<ArrayList<RuleResult>>(
-            arrayListOf(RuleResult.Failure("good-weather", "work-from-home-day")),
             result.ruleEvaluations,
         )
     }
