@@ -1,11 +1,5 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("rulesengine.kotlin-library-conventions")
-}
-
-dependencies {
-    testImplementation(kotlin("test"))
 }
 
 val packageGroupId: String by project

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("rulesengine.kotlin-library-conventions")
 }
@@ -11,7 +9,6 @@ repositories {
 dependencies {
     implementation(project(":core"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
-    testImplementation(kotlin("test"))
 }
 
 val packageGroupId: String by project
