@@ -7,5 +7,4 @@
  * in the user manual at https://docs.gradle.org/7.4.2/userguide/multi_project_builds.html
  */
 
-rootProject.name = "rulesengine"
-include("core", "json-adapter")
+rootProject.name = "core"
