@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 /**
  * Class defining set of options to change behavior of a rule

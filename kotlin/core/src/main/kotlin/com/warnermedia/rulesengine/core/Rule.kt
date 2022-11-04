@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 import java.time.Instant
 

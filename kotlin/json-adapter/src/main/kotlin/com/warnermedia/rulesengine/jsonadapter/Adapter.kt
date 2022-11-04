@@ -1,7 +1,7 @@
-package jsonadapter
+package com.warnermedia.rulesengine.jsonadapter
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import core.Engine
+import com.warnermedia.rulesengine.core.Engine
 import java.io.File
 
 class Adapter {

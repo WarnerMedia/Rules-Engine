@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 /**
  * Class defining a rules engine instance with an input rule set and other options

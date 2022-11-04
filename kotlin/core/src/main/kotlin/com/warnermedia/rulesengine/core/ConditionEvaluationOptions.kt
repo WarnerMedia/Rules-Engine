@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 /**
  * Class defining options passed during evaluation of a condition

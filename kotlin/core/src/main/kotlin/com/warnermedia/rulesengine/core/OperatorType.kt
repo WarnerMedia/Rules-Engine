@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 /**
  * Enum defining possible operators supported to use when creating a condition

@@ -1,4 +1,4 @@
-package core
+package com.warnermedia.rulesengine.core
 
 /**
  * Enum defining different ways an engine will evaluate the rule set
