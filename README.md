@@ -37,3 +37,6 @@ You can pass in the token during CI like the following:
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+For more information about using GitHub Packages registry, go
+[here](https://docs.github.com/en/packages/working-with-a-github-packages-registry)
