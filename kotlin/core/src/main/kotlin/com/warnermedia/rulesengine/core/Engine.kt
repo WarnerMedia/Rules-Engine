@@ -3,7 +3,11 @@ package com.warnermedia.rulesengine.core
 /**
  * Class defining a rules engine instance with an input rule set and other options
  */
-class Engine(val id: String, rules: ArrayList<Rule>, val options: EngineOptions = EngineOptions()) {
+class Engine @JvmOverloads constructor(
+    val id: String,
+    rules: ArrayList<Rule>,
+    val options: EngineOptions = EngineOptions()
+) {
     val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
     fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
