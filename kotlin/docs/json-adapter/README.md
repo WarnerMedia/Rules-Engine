@@ -1,6 +1,7 @@
-# Examples
+# JsonAdapter
 
-Assuming `com.warnermedia.rulesengine:rulesengine-jsonadapter` is installed
+Assuming `com.warnermedia.rulesengine:rulesengine-core` and 
+`com.warnermedia.rulesengine:rulesengine-jsonadapter` are installed
 
 ## Store engine to JSON file
 
