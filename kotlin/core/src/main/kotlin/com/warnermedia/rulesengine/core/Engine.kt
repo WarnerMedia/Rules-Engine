@@ -17,7 +17,7 @@ class Engine @JvmOverloads constructor(
             if (evaluationResult.second) {
                 ExitCriteria.EarlyExit(evaluationResult.first.last())
             } else {
-                ExitCriteria.NormalExit
+                ExitCriteria.NormalExit()
             },
         )
     }
