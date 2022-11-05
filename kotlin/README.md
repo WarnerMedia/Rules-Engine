@@ -49,7 +49,7 @@ To allow for JSON persistence capability, add the following in addition to the a
     implementation("com.warnermedia.rulesengine:rulesengine-jsonadapter:<version>")
 ```
 
-For more examples, look [here](https://github.com/WarnerMedia/Rules-Engine/tree/main/kotlin/docs/examples)
+For more examples, look [here](https://github.com/WarnerMedia/Rules-Engine/tree/main/kotlin/docs)
 
 ## Initial Contributors
 
