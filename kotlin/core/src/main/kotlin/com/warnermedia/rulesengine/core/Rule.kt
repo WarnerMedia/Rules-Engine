@@ -6,7 +6,7 @@ import java.time.Instant
  * Class defining a set of conditions, success and failure result to use
  * upon evaluation of all the conditions
  */
-class Rule(
+class Rule @JvmOverloads constructor(
     val id: String,
     val conditions: ArrayList<Condition>,
     val result: Pair<Any, Any> = Pair(true, false),

@@ -8,11 +8,13 @@ class Adapter {
     companion object {
         private val mapper = jacksonObjectMapper()
 
+        @JvmStatic
         fun readFromFile(path: String): Engine {
             val engineStringRepresentation = File(path).readText(Charsets.UTF_8)
             return readFromString(engineStringRepresentation)
         }
 
+        @JvmStatic
         fun saveToFile(engine: Engine, path: String) {
             File(path).writeText(engineToString(engine), Charsets.UTF_8)
         }

@@ -19,7 +19,7 @@ jobs:
         java-version: 17
         distribution: temurin
     - name: Build package
-      run: ./gradlew build
+      run: ./gradlew clean build
 
   create-gh-release:
     needs: build

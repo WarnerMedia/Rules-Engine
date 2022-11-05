@@ -6,7 +6,7 @@ package com.warnermedia.rulesengine.core
 sealed class ExitCriteria {
     class EarlyExit(val ruleResult: RuleResult) : ExitCriteria()
 
-    object NormalExit : ExitCriteria()
+    class NormalExit : ExitCriteria()
 
     fun isEarlyExit(): Boolean {
         return this is EarlyExit
