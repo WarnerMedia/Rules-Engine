@@ -40,25 +40,25 @@ class Rule @JvmOverloads constructor(
             ruleEvaluationOptions.undefinedFactEvaluationType,
         )
 
-        conditions.forEach {
-            when (val evaluationResult = it.evaluate(
-                facts,
-                conditionEvaluationOptions,
-            )) {
-                is ConditionResult.Ok -> when (evaluationResult.okValue) {
-                    true -> if (options.conditionJoiner == ConditionJoiner.OR) return getSuccessResult()
-                    false -> if (options.conditionJoiner == ConditionJoiner.AND) return getFailureResult()
-                }
-
-                is ConditionResult.Skipped -> return getSkippedResult(evaluationResult.skipReason)
-                is ConditionResult.Error -> return getErrorResult(evaluationResult.errorMessage)
+        return conditions.firstNotNullOfOrNull { it.evaluate(facts, conditionEvaluationOptions).getRuleResultOrNull() }
+            ?: when (options.conditionJoiner) {
+                ConditionJoiner.AND -> getSuccessResult()
+                ConditionJoiner.OR -> getFailureResult()
             }
+    }
+
+    private fun ConditionResult.getRuleResultOrNull(): RuleResult? {
+        when (this) {
+            is ConditionResult.Ok -> when (this.okValue) {
+                true -> if (options.conditionJoiner == ConditionJoiner.OR) return getSuccessResult()
+                false -> if (options.conditionJoiner == ConditionJoiner.AND) return getFailureResult()
+            }
+
+            is ConditionResult.Skipped -> return getSkippedResult(this.skipReason)
+            is ConditionResult.Error -> return getErrorResult(this.errorMessage)
         }
 
-        return when (options.conditionJoiner) {
-            ConditionJoiner.AND -> getSuccessResult()
-            ConditionJoiner.OR -> getFailureResult()
-        }
+        return null
     }
 
     private fun getErrorResult(message: String): RuleResult.Error {
