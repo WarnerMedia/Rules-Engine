@@ -12,59 +12,53 @@ class Rule @JvmOverloads constructor(
     val result: Pair<Any, Any> = Pair(true, false),
     val options: RuleOptions = RuleOptions()
 ) {
-    private val ruleEvaluationErrorMessage = "rule evaluation error"
-
     fun evaluate(facts: HashMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
             return getSkippedResult(SkipReason.DISABLED_RULE)
         }
 
         val currentTime = Instant.now().epochSecond
-
         if (currentTime < options.startTime || currentTime > options.endTime) {
             return getSkippedResult(SkipReason.INACTIVE_RULE)
         }
 
-        return try {
-            val computedResult = computeResult(facts, ruleEvaluationOptions)
-
-            if (ruleEvaluationOptions.storeRuleEvaluationResults) {
-                when (computedResult) {
-                    is RuleResult.Success -> facts[this.id] = true
-                    is RuleResult.Failure -> facts[this.id] = false
-                    else -> Unit
-                }
+        val computedResult = computeResult(facts, ruleEvaluationOptions)
+        if (ruleEvaluationOptions.storeRuleEvaluationResults) {
+            when (computedResult) {
+                is RuleResult.Success -> facts[this.id] = true
+                is RuleResult.Failure -> facts[this.id] = false
+                else -> Unit
             }
-
-            computedResult
-        } catch (e: Exception) {
-            getErrorResult(e.message ?: ruleEvaluationErrorMessage)
         }
+
+        return computedResult
     }
 
     private fun computeResult(facts: HashMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
-        conditions.forEach {
-            when (
-                val evaluationResult =
-                    it.evaluate(
-                        facts,
-                        ConditionEvaluationOptions(
-                            ruleEvaluationOptions.upcastFactValues,
-                            ruleEvaluationOptions.undefinedFactEvaluationType,
-                        ),
-                    )
-            ) {
-                is ConditionResult.Ok -> when (evaluationResult.okValue) {
-                    true -> if (options.conditionJoiner == ConditionJoiner.OR) return getSuccessResult()
-                    false -> if (options.conditionJoiner == ConditionJoiner.AND) return getFailureResult()
-                }
+        val conditionEvaluationOptions = ConditionEvaluationOptions(
+            ruleEvaluationOptions.upcastFactValues,
+            ruleEvaluationOptions.undefinedFactEvaluationType,
+        )
 
-                is ConditionResult.Skipped -> return getSkippedResult(evaluationResult.skipReason)
-                is ConditionResult.Error -> return getErrorResult(evaluationResult.errorMessage)
+        return conditions.firstNotNullOfOrNull { it.evaluate(facts, conditionEvaluationOptions).getRuleResultOrNull() }
+            ?: when (options.conditionJoiner) {
+                ConditionJoiner.AND -> getSuccessResult()
+                ConditionJoiner.OR -> getFailureResult()
             }
+    }
+
+    private fun ConditionResult.getRuleResultOrNull(): RuleResult? {
+        when (this) {
+            is ConditionResult.Ok -> when (this.okValue) {
+                true -> if (options.conditionJoiner == ConditionJoiner.OR) return getSuccessResult()
+                false -> if (options.conditionJoiner == ConditionJoiner.AND) return getFailureResult()
+            }
+
+            is ConditionResult.Skipped -> return getSkippedResult(this.skipReason)
+            is ConditionResult.Error -> return getErrorResult(this.errorMessage)
         }
 
-        return if (options.conditionJoiner == ConditionJoiner.AND) getSuccessResult() else getFailureResult()
+        return null
     }
 
     private fun getErrorResult(message: String): RuleResult.Error {
