@@ -1,0 +1,21 @@
+name: PR Label Check
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - unlabeled
+      - reopened
+
+permissions: read-all
+
+jobs:
+  check_labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: agilepathway/label-checker@v1.2.6
+        with:
+          any_of: Kotlin,TypeScript
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
