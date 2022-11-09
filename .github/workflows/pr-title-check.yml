@@ -14,6 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: PR Title Verify
-        uses: satvik-s/pr-title-check@1.0.1
+        uses: satvik-s/pr-title-check@1.0.2
         with:
           pattern: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])+([\s\S]*)'
