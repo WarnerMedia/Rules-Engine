@@ -1,4 +1,4 @@
-name: 'PR Title Check'
+name: PR Title Check
 on:
   pull_request:
     types:
@@ -7,9 +7,12 @@ on:
       - synchronize
       - labeled
       - unlabeled
+      - reopened
+
+permissions: read-all
 
 jobs:
-  check:
+  check_title:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
