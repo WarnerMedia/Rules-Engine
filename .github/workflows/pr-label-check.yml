@@ -17,5 +17,5 @@ jobs:
     steps:
       - uses: agilepathway/label-checker@v1.2.6
         with:
-          any_of: kotlin,typescript
+          any_of: Kotlin,TypeScript
           repo_token: ${{ secrets.GITHUB_TOKEN }}
