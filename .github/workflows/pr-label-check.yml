@@ -1,4 +1,4 @@
-name: PR Label Checker
+name: PR Label Check
 on:
   pull_request:
     types:
