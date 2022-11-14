@@ -1,0 +1,17 @@
+name: qodana (kotlin)
+
+on:
+  pull_request:
+    paths:
+      - 'kotlin/**'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kotlin
+    steps:
+    - uses: actions/checkout@v3
+    - name: Qodana Scan
+      uses: JetBrains/qodana-action@v2022.2.2
