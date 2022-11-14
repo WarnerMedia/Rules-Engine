@@ -8,7 +8,7 @@ repositories {
 
 dependencies {
     implementation(project(":core"))
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
 }
 
 val packageGroupId: String by project
