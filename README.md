@@ -1,4 +1,7 @@
 # Rules-Engine
+[![Kotlin package](https://github.com/WarnerMedia/Rules-Engine/actions/workflows/pr-kotlin.yml/badge.svg)](https://github.com/WarnerMedia/Rules-Engine/actions/workflows/pr-kotlin.yml)
+[![TypeScript package](https://github.com/WarnerMedia/Rules-Engine/actions/workflows/pr-typescript.yml/badge.svg)](https://github.com/WarnerMedia/Rules-Engine/actions/workflows/pr-typescript.yml)
+[![Qodana](https://github.com/WarnerMedia/Rules-Engine/actions/workflows/qodana.yml/badge.svg)](https://github.com/WarnerMedia/Rules-Engine/actions/workflows/qodana.yml)
 
 This repository contains the Kotlin and TypeScript implementaions of Rules-Engine
 
