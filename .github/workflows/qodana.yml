@@ -2,8 +2,8 @@ name: qodana (kotlin)
 
 on:
   pull_request:
-    paths:
-      - 'kotlin/**'
+    branches:
+    - main
 
 jobs:
   scan:
