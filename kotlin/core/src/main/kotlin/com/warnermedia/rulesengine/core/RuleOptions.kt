@@ -3,7 +3,7 @@ package com.warnermedia.rulesengine.core
 /**
  * Class defining set of options to change behavior of a rule
  */
-class RuleOptions(
+data class RuleOptions(
     val conditionJoiner: ConditionJoiner = ConditionJoiner.AND,
     val enabled: Boolean = true,
     val startTime: Int = Int.MIN_VALUE,

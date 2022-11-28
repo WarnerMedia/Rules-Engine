@@ -12,19 +12,19 @@ class Engine @JvmOverloads constructor(
 
     fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
+        val exitCriteria = when (val exitResult = evaluationResult.second) {
+            null -> ExitCriteria.NormalExit()
+            else -> ExitCriteria.EarlyExit(exitResult)
+        }
+
         return EvaluationResult(
-            evaluationResult.first,
-            if (evaluationResult.second) {
-                ExitCriteria.EarlyExit(evaluationResult.first.last())
-            } else {
-                ExitCriteria.NormalExit()
-            },
+            evaluationResult.first, exitCriteria,
         )
     }
 
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
         facts: HashMap<String, Any?>, engineOptions: EngineOptions
-    ): Pair<ArrayList<RuleResult>, Boolean> {
+    ): Pair<ArrayList<RuleResult>, RuleResult?> {
         val list = ArrayList<RuleResult>()
         for (item in this) {
             val result = item.evaluate(
@@ -37,12 +37,12 @@ class Engine @JvmOverloads constructor(
             )
             list.add(result)
             when (engineOptions.evaluationType) {
-                EngineEvaluationType.FIRST_ERROR -> if (result.isError()) return Pair(list, true)
-                EngineEvaluationType.FIRST_FAILURE -> if (result.isFailure()) return Pair(list, true)
-                EngineEvaluationType.FIRST_SUCCESS -> if (result.isSuccess()) return Pair(list, true)
+                EngineEvaluationType.FIRST_ERROR -> if (result.isError()) return Pair(list, result)
+                EngineEvaluationType.FIRST_FAILURE -> if (result.isFailure()) return Pair(list, result)
+                EngineEvaluationType.FIRST_SUCCESS -> if (result.isSuccess()) return Pair(list, result)
                 else -> Unit
             }
         }
-        return Pair(list, false)
+        return Pair(list, null)
     }
 }
