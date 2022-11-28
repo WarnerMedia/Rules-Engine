@@ -4,9 +4,13 @@ package com.warnermedia.rulesengine.core
  * Class defining possible exit criteria for an engine evaluation
  */
 sealed class ExitCriteria {
-    class EarlyExit(val ruleResult: RuleResult) : ExitCriteria()
+    data class EarlyExit(val ruleResult: RuleResult) : ExitCriteria()
 
-    class NormalExit : ExitCriteria()
+    object NormalExit : ExitCriteria() {
+        override fun toString(): String {
+            return "NormalExit"
+        }
+    }
 
     fun isEarlyExit(): Boolean {
         return this is EarlyExit

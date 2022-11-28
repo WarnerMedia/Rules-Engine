@@ -3,24 +3,12 @@ package com.warnermedia.rulesengine.core
 /**
  * Class defining the possible outputs of a condition evaluation
  */
-sealed class ConditionResult {
-    class Error(val errorMessage: String) : ConditionResult() {
-        override fun toString(): String {
-            return "ERROR: $errorMessage"
-        }
-    }
+sealed class ConditionResult() {
+    data class Error(val errorMessage: String) : ConditionResult()
 
-    class Ok(val okValue: Boolean) : ConditionResult() {
-        override fun toString(): String {
-            return "OK: $okValue"
-        }
-    }
+    data class Ok(val okValue: Boolean) : ConditionResult()
 
-    class Skipped(val skipReason: SkipReason) : ConditionResult() {
-        override fun toString(): String {
-            return "SKIPPED: ${skipReason.getSkipMessage()}"
-        }
-    }
+    data class Skipped(val skipReason: SkipReason) : ConditionResult()
 
     fun isError(): Boolean {
         return this is Error

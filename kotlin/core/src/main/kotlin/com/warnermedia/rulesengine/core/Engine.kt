@@ -13,7 +13,7 @@ class Engine @JvmOverloads constructor(
     fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
         val exitCriteria = when (val exitResult = evaluationResult.second) {
-            null -> ExitCriteria.NormalExit()
+            null -> ExitCriteria.NormalExit
             else -> ExitCriteria.EarlyExit(exitResult)
         }
 

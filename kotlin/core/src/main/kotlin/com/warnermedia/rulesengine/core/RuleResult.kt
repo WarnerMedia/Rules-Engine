@@ -3,46 +3,14 @@ package com.warnermedia.rulesengine.core
 /**
  * Class defining the possible outputs of a rule evaluation
  */
-sealed class RuleResult(val ruleId: String) {
-    class Error(ruleId: String, val errorMessage: String) : RuleResult(ruleId) {
-        override fun toString(): String {
-            return "$ruleId -> ERROR: $errorMessage"
-        }
-    }
+sealed class RuleResult(open val ruleId: String) {
+    data class Error(override val ruleId: String, val errorMessage: String) : RuleResult(ruleId)
 
-    class Failure(ruleId: String, val failureValue: Any) : RuleResult(ruleId) {
-        override fun toString(): String {
-            return "$ruleId -> FAILURE: $failureValue"
-        }
+    data class Failure(override val ruleId: String, val failureValue: Any) : RuleResult(ruleId)
 
-        override fun equals(other: Any?): Boolean {
-            return other is Failure && this.failureValue == other.failureValue
-        }
+    data class Skipped(override val ruleId: String, val skipReason: SkipReason) : RuleResult(ruleId)
 
-        override fun hashCode(): Int {
-            return failureValue.hashCode()
-        }
-    }
-
-    class Skipped(ruleId: String, val skipReason: SkipReason) : RuleResult(ruleId) {
-        override fun toString(): String {
-            return "$ruleId -> SKIPPED: ${skipReason.getSkipMessage()}"
-        }
-    }
-
-    class Success(ruleId: String, val successValue: Any) : RuleResult(ruleId) {
-        override fun toString(): String {
-            return "$ruleId -> SUCCESS: $successValue"
-        }
-
-        override fun equals(other: Any?): Boolean {
-            return other is Success && this.successValue == other.successValue
-        }
-
-        override fun hashCode(): Int {
-            return successValue.hashCode()
-        }
-    }
+    data class Success(override val ruleId: String, val successValue: Any) : RuleResult(ruleId)
 
     fun isError(): Boolean {
         return this is Error
