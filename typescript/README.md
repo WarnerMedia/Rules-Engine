@@ -27,7 +27,7 @@ $ npm run test
 Fix lint issues
 
 ```bash
-$ npm run lint-fix
+$ npm run lint:fix
 ```
 
 Build the package
