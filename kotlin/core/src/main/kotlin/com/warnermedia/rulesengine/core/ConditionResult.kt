@@ -3,15 +3,15 @@ package com.warnermedia.rulesengine.core
 /**
  * Class defining the possible outputs of a condition evaluation
  */
-sealed class ConditionResult(open val fact: String, open val operator: String) {
-    data class Error(override val fact: String, override val operator: String, val errorMessage: String) :
-        ConditionResult(fact, operator)
+sealed class ConditionResult(open val fact: String, open val operatorType: String) {
+    data class Error(override val fact: String, override val operatorType: String, val errorMessage: String) :
+        ConditionResult(fact, operatorType)
 
-    data class Ok(override val fact: String, override val operator: String, val okValue: Boolean) :
-        ConditionResult(fact, operator)
+    data class Ok(override val fact: String, override val operatorType: String, val okValue: Boolean) :
+        ConditionResult(fact, operatorType)
 
-    data class Skipped(override val fact: String, override val operator: String, val skipReason: SkipReason) :
-        ConditionResult(fact, operator)
+    data class Skipped(override val fact: String, override val operatorType: String, val skipReason: SkipReason) :
+        ConditionResult(fact, operatorType)
 
     fun isError(): Boolean {
         return this is Error
