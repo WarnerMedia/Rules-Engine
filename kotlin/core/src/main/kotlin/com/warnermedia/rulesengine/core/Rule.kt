@@ -14,12 +14,12 @@ class Rule @JvmOverloads constructor(
 ) {
     fun evaluate(facts: MutableMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
-            return getSkippedResult(SkipReason.DISABLED_RULE)
+            return createSkippedResult(arrayListOf(), SkipReason.DISABLED_RULE)
         }
 
         val currentTime = Instant.now().epochSecond
         if (currentTime < options.startTime || currentTime > options.endTime) {
-            return getSkippedResult(SkipReason.INACTIVE_RULE)
+            return createSkippedResult(arrayListOf(), SkipReason.INACTIVE_RULE)
         }
 
         val computedResult = computeResult(facts, ruleEvaluationOptions)
@@ -34,28 +34,37 @@ class Rule @JvmOverloads constructor(
         return computedResult
     }
 
-    private fun computeResult(facts: MutableMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
+    private fun computeResult(
+        facts: MutableMap<String, Any?>,
+        ruleEvaluationOptions: RuleEvaluationOptions
+    ): RuleResult {
+        val conditionResults = arrayListOf<ConditionResult>()
         return conditions.firstNotNullOfOrNull {
             it.evaluate(
                 facts,
                 ruleEvaluationOptions.getConditionEvaluationOptions(),
-            ).getRuleResultOrNull()
+            ).collectInto(conditionResults).getRuleResultOrNull(conditionResults)
         }
             ?: when (options.conditionJoiner) {
-                ConditionJoiner.AND -> getSuccessResult()
-                ConditionJoiner.OR -> getFailureResult()
+                ConditionJoiner.AND -> createSuccessResult(conditionResults)
+                ConditionJoiner.OR -> createFailureResult(conditionResults)
             }
     }
 
-    private fun ConditionResult.getRuleResultOrNull(): RuleResult? {
+    private fun ConditionResult.collectInto(list: MutableList<ConditionResult>): ConditionResult {
+        list.add(this)
+        return this
+    }
+
+    private fun ConditionResult.getRuleResultOrNull(conditionResults: List<ConditionResult>): RuleResult? {
         when (this) {
             is ConditionResult.Ok -> when (this.okValue) {
-                true -> if (options.conditionJoiner == ConditionJoiner.OR) return getSuccessResult()
-                false -> if (options.conditionJoiner == ConditionJoiner.AND) return getFailureResult()
+                true -> if (options.conditionJoiner == ConditionJoiner.OR) return createSuccessResult(conditionResults)
+                false -> if (options.conditionJoiner == ConditionJoiner.AND) return createFailureResult(conditionResults)
             }
 
-            is ConditionResult.Skipped -> return getSkippedResult(this.skipReason)
-            is ConditionResult.Error -> return getErrorResult(this.errorMessage)
+            is ConditionResult.Skipped -> return createSkippedResult(conditionResults, this.skipReason)
+            is ConditionResult.Error -> return createErrorResult(conditionResults, this.errorMessage)
         }
 
         return null
@@ -65,19 +74,19 @@ class Rule @JvmOverloads constructor(
         return ConditionEvaluationOptions(this.upcastFactValues, this.undefinedFactEvaluationType)
     }
 
-    private fun getErrorResult(message: String): RuleResult.Error {
-        return RuleResult.Error(id, message)
+    private fun createErrorResult(conditionResults: List<ConditionResult>, message: String): RuleResult.Error {
+        return RuleResult.Error(id, conditionResults, message)
     }
 
-    private fun getFailureResult(): RuleResult.Failure {
-        return RuleResult.Failure(id, result.second)
+    private fun createFailureResult(conditionResults: List<ConditionResult>): RuleResult.Failure {
+        return RuleResult.Failure(id, conditionResults, result.second)
     }
 
-    private fun getSkippedResult(reason: SkipReason): RuleResult.Skipped {
-        return RuleResult.Skipped(id, reason)
+    private fun createSkippedResult(conditionResults: List<ConditionResult>, reason: SkipReason): RuleResult.Skipped {
+        return RuleResult.Skipped(id, conditionResults, reason)
     }
 
-    private fun getSuccessResult(): RuleResult.Success {
-        return RuleResult.Success(id, result.first)
+    private fun createSuccessResult(conditionResults: List<ConditionResult>): RuleResult.Success {
+        return RuleResult.Success(id, conditionResults, result.first)
     }
 }
