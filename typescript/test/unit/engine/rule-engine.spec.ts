@@ -388,7 +388,7 @@ describe('RuleEngine', () => {
                     new Rule('test-rule-one', [], [true, false]),
                 ]);
 
-            expect(engine).toThrowError('two rules found with the same name: test-rule-one');
+            expect(engine).toThrow('two rules found with the same name: test-rule-one');
         });
 
         test('should error when the rule priority is out of range', () => {
@@ -397,7 +397,7 @@ describe('RuleEngine', () => {
                     new Rule('test-rule-one', [], [true, false], { priority: -1 }),
                 ]);
 
-            expect(engine).toThrowError('rule priority out of bounds for rule: test-rule-one');
+            expect(engine).toThrow('rule priority out of bounds for rule: test-rule-one');
         });
     });
 
@@ -434,7 +434,7 @@ describe('RuleEngine', () => {
                         exitCriteria: { earlyExit: false },
                     },
                 );
-            expect(testResult).not.toThrowError();
+            expect(testResult).not.toThrow();
         });
 
         test('should test rule successfully', () => {
@@ -458,7 +458,7 @@ describe('RuleEngine', () => {
                     { factA: 'abcd', factB: 3 },
                     { type: ResultType.SUCCESS, value: true },
                 );
-            expect(testResult).not.toThrowError();
+            expect(testResult).not.toThrow();
         });
 
         test('should throw error for test rule when rule does not exist', () => {
@@ -482,7 +482,7 @@ describe('RuleEngine', () => {
                     { factA: 'abcd', factB: 3 },
                     { type: ResultType.SUCCESS, value: true },
                 );
-            expect(testFn).toThrowError();
+            expect(testFn).toThrow();
         });
     });
 
@@ -508,7 +508,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readEngineFromDisk('test-engine');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete engine from disk - no name', () => {
@@ -517,7 +517,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readEngineFromDisk('test-engine');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete engine from disk - no options', () => {
@@ -526,7 +526,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readEngineFromDisk('test-engine');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete engine from disk - no rules', () => {
@@ -535,7 +535,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readEngineFromDisk('test-engine');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete engine from disk - no version', () => {
@@ -548,7 +548,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readEngineFromDisk('test-engine');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading wrong engine from disk - incorrect version', () => {
@@ -564,7 +564,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readEngineFromDisk('test-engine');
 
-                expect(engine).toThrowError('unsupported engine version number: 2');
+                expect(engine).toThrow('unsupported engine version number: 2');
             });
         });
 
@@ -584,7 +584,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-rules');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete rules from disk - no version', () => {
@@ -593,7 +593,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-rules');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete rules from disk - malformed rules', () => {
@@ -602,7 +602,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-rules');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete rules from disk - no name', () => {
@@ -611,7 +611,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-rules');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete rules from disk - no conditions', () => {
@@ -624,7 +624,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-rules');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete rules from disk - no result', () => {
@@ -638,7 +638,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-rules');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading incomplete rules from disk - no options', () => {
@@ -652,7 +652,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-rules');
 
-                expect(engine).toThrowError('wrong file contents');
+                expect(engine).toThrow('wrong file contents');
             });
 
             test('should error when reading wrong rules from disk - incorrect version', () => {
@@ -668,7 +668,7 @@ describe('RuleEngine', () => {
                 );
                 const engine = () => RuleEngine.readRulesFromDisk('test-engine');
 
-                expect(engine).toThrowError('unsupported rules version number: 2');
+                expect(engine).toThrow('unsupported rules version number: 2');
             });
         });
     });

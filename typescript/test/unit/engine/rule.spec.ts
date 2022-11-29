@@ -43,7 +43,7 @@ describe('Rule', () => {
     test('should error for rule w/ wrong options', () => {
         const ruleDefinition = () => new Rule('test-rule', [], [], { startTimestamp: -1 });
 
-        expect(ruleDefinition).toThrowError('incorrect timestamp for rule: test-rule');
+        expect(ruleDefinition).toThrow('incorrect timestamp for rule: test-rule');
     });
 
     test('should skip evaluation for disabled rule', () => {
