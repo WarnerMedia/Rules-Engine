@@ -1,4 +1,5 @@
 module.exports = {
+    preset: 'ts-jest',
     clearMocks: true,
     collectCoverageFrom: ['src/**/*.ts', '!src/**/index.ts', '!src/**/types.ts'],
     coverageReporters: ['cobertura', 'html', 'text-summary', 'text'],
@@ -12,7 +13,4 @@ module.exports = {
     },
     reporters: ['default', ['jest-junit', { outputDirectory: 'reports' }]],
     testEnvironment: 'node',
-    transform: {
-        '^.+\\.(t|j)sx?$': ['@swc/jest'],
-    },
 };
