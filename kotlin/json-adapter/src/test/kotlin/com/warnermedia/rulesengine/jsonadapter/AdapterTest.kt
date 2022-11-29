@@ -24,7 +24,7 @@ internal class AdapterTest {
         Adapter.saveToFile(engine, "engine.json")
         val engineFromFile = Adapter.readFromFile("engine.json")
         val result = engineFromFile.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
-        assertEquals<ArrayList<RuleResult>>(
+        assertEquals<List<RuleResult>>(
             arrayListOf(RuleResult.Success("good-weather", "good-weather-day")),
             result.ruleEvaluations,
         )

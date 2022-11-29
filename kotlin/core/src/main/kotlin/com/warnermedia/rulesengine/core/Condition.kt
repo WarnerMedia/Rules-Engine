@@ -8,7 +8,7 @@ class Condition(
     val operator: Operator
 ) {
     fun evaluate(
-        facts: HashMap<String, Any?>,
+        facts: MutableMap<String, Any?>,
         conditionEvaluationOptions: ConditionEvaluationOptions
     ): ConditionResult {
         val valueFromFacts = facts[fact] ?: return when (conditionEvaluationOptions.undefinedFactEvaluationType) {

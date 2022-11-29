@@ -8,11 +8,11 @@ import java.time.Instant
  */
 class Rule @JvmOverloads constructor(
     val id: String,
-    val conditions: ArrayList<Condition>,
+    val conditions: List<Condition>,
     val result: Pair<Any, Any> = Pair(true, false),
     val options: RuleOptions = RuleOptions()
 ) {
-    fun evaluate(facts: HashMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
+    fun evaluate(facts: MutableMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
             return getSkippedResult(SkipReason.DISABLED_RULE)
         }
@@ -34,7 +34,7 @@ class Rule @JvmOverloads constructor(
         return computedResult
     }
 
-    private fun computeResult(facts: HashMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
+    private fun computeResult(facts: MutableMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         return conditions.firstNotNullOfOrNull {
             it.evaluate(
                 facts,

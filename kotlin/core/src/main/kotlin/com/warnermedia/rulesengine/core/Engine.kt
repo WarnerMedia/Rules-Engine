@@ -5,12 +5,12 @@ package com.warnermedia.rulesengine.core
  */
 class Engine @JvmOverloads constructor(
     val id: String,
-    rules: ArrayList<Rule>,
+    rules: List<Rule>,
     val options: EngineOptions = EngineOptions()
 ) {
     val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
-    fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
+    fun evaluate(facts: MutableMap<String, Any?>): EvaluationResult {
         val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
         val exitCriteria = when (val exitResult = evaluationResult.second) {
             null -> ExitCriteria.NormalExit
@@ -23,8 +23,8 @@ class Engine @JvmOverloads constructor(
     }
 
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
-        facts: HashMap<String, Any?>, engineOptions: EngineOptions
-    ): Pair<ArrayList<RuleResult>, RuleResult?> {
+        facts: MutableMap<String, Any?>, engineOptions: EngineOptions
+    ): Pair<List<RuleResult>, RuleResult?> {
         val list = ArrayList<RuleResult>()
         for (item in this) {
             val result = item.evaluate(
