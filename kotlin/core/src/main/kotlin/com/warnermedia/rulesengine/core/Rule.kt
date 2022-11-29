@@ -35,12 +35,12 @@ class Rule @JvmOverloads constructor(
     }
 
     private fun computeResult(facts: HashMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
-        val conditionEvaluationOptions = ConditionEvaluationOptions(
-            ruleEvaluationOptions.upcastFactValues,
-            ruleEvaluationOptions.undefinedFactEvaluationType,
-        )
-
-        return conditions.firstNotNullOfOrNull { it.evaluate(facts, conditionEvaluationOptions).getRuleResultOrNull() }
+        return conditions.firstNotNullOfOrNull {
+            it.evaluate(
+                facts,
+                ruleEvaluationOptions.getConditionEvaluationOptions(),
+            ).getRuleResultOrNull()
+        }
             ?: when (options.conditionJoiner) {
                 ConditionJoiner.AND -> getSuccessResult()
                 ConditionJoiner.OR -> getFailureResult()
@@ -59,6 +59,10 @@ class Rule @JvmOverloads constructor(
         }
 
         return null
+    }
+
+    private fun RuleEvaluationOptions.getConditionEvaluationOptions(): ConditionEvaluationOptions {
+        return ConditionEvaluationOptions(this.upcastFactValues, this.undefinedFactEvaluationType)
     }
 
     private fun getErrorResult(message: String): RuleResult.Error {

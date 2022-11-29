@@ -8,8 +8,8 @@ enum class OperatorType {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is Array<*> -> operatorValue.contains(valueFromFacts)
                 is ArrayList<*> -> operatorValue.contains(valueFromFacts)
@@ -17,27 +17,27 @@ enum class OperatorType {
                 is HashSet<*> -> operatorValue.contains(valueFromFacts)
                 is String -> valueFromFacts.castToString()?.let { operatorValue.contains(it) }
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     },
     ENDS_WITH {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is String -> valueFromFacts.castToString()?.endsWith(operatorValue)
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     },
     EQUALS {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is Array<*> -> valueFromFacts.castToArray()?.let { it.contentEquals(operatorValue) }
                 is ArrayList<*> -> valueFromFacts.castToArrayList()?.let { it == operatorValue }
@@ -55,15 +55,15 @@ enum class OperatorType {
                 is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it == operatorValue }
                 is String -> valueFromFacts.castToString()?.let { it == operatorValue }
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     },
     GREATER_THAN {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is Byte -> valueFromFacts.castToByte()?.let { it > operatorValue }
                 is Char -> valueFromFacts.castToChar()?.let { it > operatorValue }
@@ -74,15 +74,15 @@ enum class OperatorType {
                 is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it > operatorValue }
                 is String -> valueFromFacts.castToString()?.let { it > operatorValue }
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     },
     GREATER_THAN_EQUALS {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is Byte -> valueFromFacts.castToByte()?.let { it >= operatorValue }
                 is Char -> valueFromFacts.castToChar()?.let { it >= operatorValue }
@@ -95,15 +95,15 @@ enum class OperatorType {
                 is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it >= operatorValue }
                 is String -> valueFromFacts.castToString()?.let { it >= operatorValue }
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     },
     LESS_THAN {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is Byte -> valueFromFacts.castToByte()?.let { it < operatorValue }
                 is Char -> valueFromFacts.castToChar()?.let { it < operatorValue }
@@ -114,15 +114,15 @@ enum class OperatorType {
                 is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it < operatorValue }
                 is String -> valueFromFacts.castToString()?.let { it < operatorValue }
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     },
     LESS_THAN_EQUALS {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is Byte -> valueFromFacts.castToByte()?.let { it <= operatorValue }
                 is Char -> valueFromFacts.castToChar()?.let { it <= operatorValue }
@@ -135,15 +135,15 @@ enum class OperatorType {
                 is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it <= operatorValue }
                 is String -> valueFromFacts.castToString()?.let { it <= operatorValue }
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     },
     NOT_EQUALS {
         override fun evaluate(
             operatorValue: Any,
             valueFromFacts: Any,
-            evaluationOptions: ConditionEvaluationOptions
-        ): ConditionResult {
+            evaluationOptions: OperatorEvaluationOptions
+        ): OperatorResult {
             return when (operatorValue) {
                 is Array<*> -> valueFromFacts.castToArray()?.let { !it.contentEquals(operatorValue) }
                 is ArrayList<*> -> valueFromFacts.castToArrayList()?.let { it != operatorValue }
@@ -161,15 +161,15 @@ enum class OperatorType {
                 is Short -> valueFromFacts.castToShort(evaluationOptions.upcastFactValues)?.let { it != operatorValue }
                 is String -> valueFromFacts.castToString()?.let { it != operatorValue }
                 else -> null
-            }.getConditionResult()
+            }.getOperatorResult()
         }
     };
 
     abstract fun evaluate(
         operatorValue: Any,
         valueFromFacts: Any,
-        evaluationOptions: ConditionEvaluationOptions
-    ): ConditionResult
+        evaluationOptions: OperatorEvaluationOptions
+    ): OperatorResult
 
     fun Any.castToArray(): Array<*>? {
         return this as? Array<*>
@@ -270,11 +270,11 @@ enum class OperatorType {
         return this as? String
     }
 
-    fun Boolean?.getConditionResult(): ConditionResult {
+    fun Boolean?.getOperatorResult(): OperatorResult {
         val badCastErrorMessage = "runtime cast error"
         return when (this) {
-            null -> ConditionResult.Error(badCastErrorMessage)
-            else -> ConditionResult.Ok(this)
+            null -> OperatorResult.Error(badCastErrorMessage)
+            else -> OperatorResult.Ok(this)
         }
     }
 }
