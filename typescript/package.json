@@ -9,17 +9,17 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "$(npm bin)/tsc -p tsconfig.json",
-    "build-perf": "$(npm bin)/tsc -p tsconfig.perf.json",
+    "build": "tsc -p tsconfig.json",
+    "build:perf": "tsc -p tsconfig.perf.json",
     "coverage": "npm run test -- --coverage --coverageReporters=json-summary",
-    "coverage-local": "npm run test -- --coverage",
-    "integration-test": "$(npm bin)/jest $(pwd)/test/integration/",
-    "lint-fix": "$(npm bin)/eslint --fix .",
-    "prettier": "$(npm bin)/prettier --write .",
-    "static-analysis": "$(npm bin)/eslint .",
-    "test": "$(npm bin)/jest $(pwd)/test/unit --runInBand",
-    "check-updates": "$(npm bin)/ncu",
-    "make-updates": "$(npm bin)/ncu -u"
+    "coverage:local": "npm run test -- --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "prettier": "prettier --write .",
+    "test": "jest $(pwd)/test/unit --runInBand",
+    "test:integration": "jest $(pwd)/test/integration/",
+    "updates:check": "ncu",
+    "updates:make": "ncu -u"
   },
   "engines": {
     "node": ">=16"
