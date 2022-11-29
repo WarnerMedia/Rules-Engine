@@ -21,14 +21,13 @@ internal class EngineTest {
     @Test
     fun testSuccessfulResult() {
         val result = engine.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
-        println(result)
         assertEquals(
             arrayListOf(
                 RuleResult.Success(
                     "good-weather",
                     arrayListOf(
-                        ConditionResult.Ok("temperature", OperatorType.GREATER_THAN.name, true),
-                        ConditionResult.Ok("rainfall", OperatorType.EQUALS.name, true),
+                        ConditionResult.Ok("temperature", OperatorType.GREATER_THAN.name, 70, true),
+                        ConditionResult.Ok("rainfall", OperatorType.EQUALS.name, 0, true),
                     ),
                     "good-weather-day",
                 ),
@@ -41,10 +40,15 @@ internal class EngineTest {
     fun testFailureResult() {
         val result = engine.evaluate(hashMapOf("temperature" to 60, "rainfall" to 0))
         assertEquals(
-            arrayListOf(RuleResult.Failure("good-weather",
-                arrayListOf(
-                    ConditionResult.Ok("temperature", OperatorType.GREATER_THAN.name, false),
-                ),"work-from-home-day")),
+            arrayListOf(
+                RuleResult.Failure(
+                    "good-weather",
+                    arrayListOf(
+                        ConditionResult.Ok("temperature", OperatorType.GREATER_THAN.name, 70, false),
+                    ),
+                    "work-from-home-day",
+                ),
+            ),
             result.ruleEvaluations,
         )
     }
