@@ -141,7 +141,7 @@ describe('utils', () => {
             const result = () =>
                 mapJsonToCondition(getCondition('does_not_exist' as ConditionOperator, 'abcde'));
 
-            expect(result).toThrowError('operator not supported: does_not_exist');
+            expect(result).toThrow('operator not supported: does_not_exist');
         });
     });
 });
