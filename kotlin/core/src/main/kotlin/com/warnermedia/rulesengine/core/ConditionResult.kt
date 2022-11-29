@@ -3,7 +3,7 @@ package com.warnermedia.rulesengine.core
 /**
  * Class defining the possible outputs of a condition evaluation
  */
-sealed class ConditionResult() {
+sealed class ConditionResult {
     data class Error(val errorMessage: String) : ConditionResult()
 
     data class Ok(val okValue: Boolean) : ConditionResult()

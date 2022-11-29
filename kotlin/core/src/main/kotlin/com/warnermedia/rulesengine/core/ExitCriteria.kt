@@ -6,6 +6,7 @@ package com.warnermedia.rulesengine.core
 sealed class ExitCriteria {
     data class EarlyExit(val ruleResult: RuleResult) : ExitCriteria()
 
+    // todo: use `data object` starting kotlin 1.8
     object NormalExit : ExitCriteria() {
         override fun toString(): String {
             return "NormalExit"
