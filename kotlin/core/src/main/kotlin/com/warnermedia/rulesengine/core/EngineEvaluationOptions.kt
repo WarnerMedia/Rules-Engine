@@ -1,7 +1,13 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining properties for a rules engine evaluation
+ * Engine evaluation options
+ *
+ * @property upcastFactValues
+ * @property undefinedFactEvaluationType
+ * @property storeRuleEvaluationResults
+ * @property detailedEvaluationResults
+ * @constructor Create empty Engine evaluation options
  */
 data class EngineEvaluationOptions(
     val upcastFactValues: Boolean = false,

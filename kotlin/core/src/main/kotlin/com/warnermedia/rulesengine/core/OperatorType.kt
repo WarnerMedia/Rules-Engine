@@ -1,9 +1,16 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Enum defining possible operators supported to use when creating a condition
+ * Operator type
+ *
+ * @constructor Create empty Operator type
  */
 enum class OperatorType {
+    /**
+     * Contained In
+     *
+     * @constructor Create empty Contained In
+     */
     CONTAINED_IN {
         override fun evaluate(
             operatorValue: Any,
@@ -20,6 +27,12 @@ enum class OperatorType {
             }.getOperatorResult()
         }
     },
+
+    /**
+     * Ends With
+     *
+     * @constructor Create empty Ends With
+     */
     ENDS_WITH {
         override fun evaluate(
             operatorValue: Any,
@@ -32,6 +45,12 @@ enum class OperatorType {
             }.getOperatorResult()
         }
     },
+
+    /**
+     * Equals
+     *
+     * @constructor Create empty Equals
+     */
     EQUALS {
         override fun evaluate(
             operatorValue: Any,
@@ -58,6 +77,12 @@ enum class OperatorType {
             }.getOperatorResult()
         }
     },
+
+    /**
+     * Greater Than
+     *
+     * @constructor Create empty Greater Than
+     */
     GREATER_THAN {
         override fun evaluate(
             operatorValue: Any,
@@ -77,6 +102,12 @@ enum class OperatorType {
             }.getOperatorResult()
         }
     },
+
+    /**
+     * Greater Than Equals
+     *
+     * @constructor Create empty Greater Than Equals
+     */
     GREATER_THAN_EQUALS {
         override fun evaluate(
             operatorValue: Any,
@@ -98,6 +129,12 @@ enum class OperatorType {
             }.getOperatorResult()
         }
     },
+
+    /**
+     * Less Than
+     *
+     * @constructor Create empty Less Than
+     */
     LESS_THAN {
         override fun evaluate(
             operatorValue: Any,
@@ -117,6 +154,12 @@ enum class OperatorType {
             }.getOperatorResult()
         }
     },
+
+    /**
+     * Less Than Equals
+     *
+     * @constructor Create empty Less Than Equals
+     */
     LESS_THAN_EQUALS {
         override fun evaluate(
             operatorValue: Any,
@@ -138,6 +181,12 @@ enum class OperatorType {
             }.getOperatorResult()
         }
     },
+
+    /**
+     * Not Equals
+     *
+     * @constructor Create empty Not Equals
+     */
     NOT_EQUALS {
         override fun evaluate(
             operatorValue: Any,
@@ -165,32 +214,71 @@ enum class OperatorType {
         }
     };
 
+    /**
+     * Evaluate
+     *
+     * @param operatorValue
+     * @param valueFromFacts
+     * @param evaluationOptions
+     * @return
+     */
     abstract fun evaluate(
         operatorValue: Any,
         valueFromFacts: Any,
         evaluationOptions: OperatorEvaluationOptions
     ): OperatorResult
 
+    /**
+     * Cast to array
+     *
+     * @return
+     */
     fun Any.castToArray(): Array<*>? {
         return this as? Array<*>
     }
 
+    /**
+     * Cast to array list
+     *
+     * @return
+     */
     fun Any.castToArrayList(): ArrayList<*>? {
         return this as? ArrayList<*>
     }
 
+    /**
+     * Cast to boolean
+     *
+     * @return
+     */
     fun Any.castToBoolean(): Boolean? {
         return this as? Boolean
     }
 
+    /**
+     * Cast to byte
+     *
+     * @return
+     */
     fun Any.castToByte(): Byte? {
         return this as? Byte
     }
 
+    /**
+     * Cast to char
+     *
+     * @return
+     */
     fun Any.castToChar(): Char? {
         return this as? Char
     }
 
+    /**
+     * Cast to double
+     *
+     * @param upcast
+     * @return
+     */
     fun Any.castToDouble(upcast: Boolean): Double? {
         return (this as? Double) ?: run {
             when (upcast) {
@@ -206,18 +294,39 @@ enum class OperatorType {
         }
     }
 
+    /**
+     * Cast to float
+     *
+     * @return
+     */
     fun Any.castToFloat(): Float? {
         return this as? Float
     }
 
+    /**
+     * Cast to hash map
+     *
+     * @return
+     */
     fun Any.castToHashMap(): HashMap<*, *>? {
         return this as? HashMap<*, *>
     }
 
+    /**
+     * Cast to hash set
+     *
+     * @return
+     */
     fun Any.castToHashSet(): HashSet<*>? {
         return this as? HashSet<*>
     }
 
+    /**
+     * Cast to int
+     *
+     * @param upcast
+     * @return
+     */
     fun Any.castToInt(upcast: Boolean): Int? {
         return (this as? Int) ?: run {
             when (upcast) {
@@ -234,6 +343,12 @@ enum class OperatorType {
         }
     }
 
+    /**
+     * Cast to long
+     *
+     * @param upcast
+     * @return
+     */
     fun Any.castToLong(upcast: Boolean): Long? {
         return (this as? Long) ?: run {
             when (upcast) {
@@ -251,6 +366,12 @@ enum class OperatorType {
         }
     }
 
+    /**
+     * Cast to short
+     *
+     * @param upcast
+     * @return
+     */
     fun Any.castToShort(upcast: Boolean): Short? {
         return (this as? Short) ?: run {
             when (upcast) {
@@ -266,10 +387,20 @@ enum class OperatorType {
         }
     }
 
+    /**
+     * Cast to string
+     *
+     * @return
+     */
     fun Any.castToString(): String? {
         return this as? String
     }
 
+    /**
+     * Get operator result
+     *
+     * @return
+     */
     fun Boolean?.getOperatorResult(): OperatorResult {
         val badCastErrorMessage = "runtime cast error"
         return when (this) {

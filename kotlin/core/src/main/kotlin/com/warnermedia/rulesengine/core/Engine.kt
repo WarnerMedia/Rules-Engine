@@ -1,7 +1,13 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining a rules engine instance with an input rule set and other options
+ * Engine
+ *
+ * @property id
+ * @property engineOptions
+ * @constructor
+ *
+ * @param rules
  */
 class Engine @JvmOverloads constructor(
     val id: String,
@@ -10,6 +16,13 @@ class Engine @JvmOverloads constructor(
 ) {
     val rules = if (engineOptions.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
+    /**
+     * Evaluate
+     *
+     * @param facts
+     * @param engineEvaluationOptions
+     * @return
+     */
     fun evaluate(
         facts: MutableMap<String, Any?>,
         engineEvaluationOptions: EngineEvaluationOptions = EngineEvaluationOptions()

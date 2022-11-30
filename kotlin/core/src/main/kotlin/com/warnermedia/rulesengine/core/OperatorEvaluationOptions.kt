@@ -1,7 +1,11 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining options passed during evaluation of an operator
+ * Operator evaluation options
+ *
+ * @property upcastFactValues
+ * @property undefinedFactEvaluationType
+ * @constructor Create empty Operator evaluation options
  */
 data class OperatorEvaluationOptions(
     val upcastFactValues: Boolean,

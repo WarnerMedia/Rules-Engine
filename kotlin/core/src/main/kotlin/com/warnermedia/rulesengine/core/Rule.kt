@@ -3,8 +3,13 @@ package com.warnermedia.rulesengine.core
 import java.time.Instant
 
 /**
- * Class defining a set of conditions, success and failure result to use
- * upon evaluation of all the conditions
+ * Rule
+ *
+ * @property id
+ * @property conditions
+ * @property result
+ * @property options
+ * @constructor Create empty Rule
  */
 class Rule @JvmOverloads constructor(
     val id: String,
@@ -12,6 +17,13 @@ class Rule @JvmOverloads constructor(
     val result: Pair<Any, Any> = Pair(true, false),
     val options: RuleOptions = RuleOptions()
 ) {
+    /**
+     * Evaluate
+     *
+     * @param facts
+     * @param ruleEvaluationOptions
+     * @return
+     */
     fun evaluate(facts: MutableMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {
             return createSkippedResult(arrayListOf(), SkipReason.DISABLED_RULE)

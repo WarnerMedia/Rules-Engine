@@ -1,12 +1,23 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining results from boolean operations like equals, greater than, etc.
+ * Condition
+ *
+ * @property fact
+ * @property operator
+ * @constructor Create empty Condition
  */
 class Condition(
     val fact: String,
     val operator: Operator
 ) {
+    /**
+     * Evaluate
+     *
+     * @param facts
+     * @param conditionEvaluationOptions
+     * @return
+     */
     fun evaluate(
         facts: MutableMap<String, Any?>,
         conditionEvaluationOptions: ConditionEvaluationOptions

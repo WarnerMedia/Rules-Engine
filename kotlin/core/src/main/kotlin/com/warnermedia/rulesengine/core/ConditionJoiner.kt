@@ -1,8 +1,22 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Enum defining possible ways of joining multiple conditions within a rule
+ * Condition joiner
+ *
+ * @constructor Create empty Condition joiner
  */
 enum class ConditionJoiner {
-    AND, OR
+    /**
+     * And
+     *
+     * @constructor Create empty And
+     */
+    AND,
+
+    /**
+     * Or
+     *
+     * @constructor Create empty Or
+     */
+    OR
 }

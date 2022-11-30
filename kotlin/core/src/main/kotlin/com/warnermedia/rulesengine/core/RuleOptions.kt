@@ -1,7 +1,14 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining set of options to change behavior of a rule
+ * Rule options
+ *
+ * @property conditionJoiner
+ * @property enabled
+ * @property startTime
+ * @property endTime
+ * @property priority
+ * @constructor Create empty Rule options
  */
 data class RuleOptions(
     val conditionJoiner: ConditionJoiner = ConditionJoiner.AND,

@@ -1,7 +1,11 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining options passed during evaluation of a condition
+ * Condition evaluation options
+ *
+ * @property upcastFactValues
+ * @property undefinedFactEvaluationType
+ * @constructor Create empty Condition evaluation options
  */
 data class ConditionEvaluationOptions(
     val upcastFactValues: Boolean,
