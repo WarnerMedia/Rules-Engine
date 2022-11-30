@@ -6,5 +6,6 @@ package com.warnermedia.rulesengine.core
 data class RuleEvaluationOptions(
     val upcastFactValues: Boolean,
     val undefinedFactEvaluationType: UndefinedFactEvaluation,
-    val storeRuleEvaluationResults: Boolean
+    val storeRuleEvaluationResults: Boolean,
+    val detailedEvaluationResults: Boolean
 )

@@ -19,8 +19,22 @@ internal class EngineTest {
     )
 
     @Test
-    fun testSuccessfulResult() {
+    fun testSuccessfulEvaluation() {
         val result = engine.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
+        assertEquals(
+            arrayListOf(
+                RuleResult.Success("good-weather", arrayListOf(), "good-weather-day"),
+            ),
+            result.ruleEvaluations,
+        )
+    }
+
+    @Test
+    fun testSuccessfulEvaluationWithDetailedResult() {
+        val result = engine.evaluate(
+            hashMapOf("temperature" to 75, "rainfall" to 0),
+            EngineEvaluationOptions(detailedEvaluationResults = true),
+        )
         assertEquals(
             arrayListOf(
                 RuleResult.Success(
@@ -37,8 +51,22 @@ internal class EngineTest {
     }
 
     @Test
-    fun testFailureResult() {
+    fun testFailureEvaluation() {
         val result = engine.evaluate(hashMapOf("temperature" to 60, "rainfall" to 0))
+        assertEquals(
+            arrayListOf(
+                RuleResult.Failure("good-weather", arrayListOf(), "work-from-home-day"),
+            ),
+            result.ruleEvaluations,
+        )
+    }
+
+    @Test
+    fun testFailureEvaluationWithDetailedEvaluation() {
+        val result = engine.evaluate(
+            hashMapOf("temperature" to 60, "rainfall" to 0),
+            EngineEvaluationOptions(detailedEvaluationResults = true),
+        )
         assertEquals(
             arrayListOf(
                 RuleResult.Failure(

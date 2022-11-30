@@ -6,12 +6,15 @@ package com.warnermedia.rulesengine.core
 class Engine @JvmOverloads constructor(
     val id: String,
     rules: List<Rule>,
-    val options: EngineOptions = EngineOptions()
+    val engineOptions: EngineOptions = EngineOptions()
 ) {
-    val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
+    val rules = if (engineOptions.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
-    fun evaluate(facts: MutableMap<String, Any?>): EvaluationResult {
-        val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
+    fun evaluate(
+        facts: MutableMap<String, Any?>,
+        engineEvaluationOptions: EngineEvaluationOptions = EngineEvaluationOptions()
+    ): EvaluationResult {
+        val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, engineEvaluationOptions)
         val exitCriteria = when (val exitResult = evaluationResult.second) {
             null -> ExitCriteria.NormalExit
             else -> ExitCriteria.EarlyExit(exitResult)
@@ -22,18 +25,24 @@ class Engine @JvmOverloads constructor(
         )
     }
 
+    private fun EngineEvaluationOptions.toRuleEvaluationOptions(): RuleEvaluationOptions {
+        return RuleEvaluationOptions(
+            this.upcastFactValues,
+            this.undefinedFactEvaluationType,
+            this.storeRuleEvaluationResults,
+            this.detailedEvaluationResults,
+        )
+    }
+
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
-        facts: MutableMap<String, Any?>, engineOptions: EngineOptions
+        facts: MutableMap<String, Any?>,
+        engineEvaluationOptions: EngineEvaluationOptions
     ): Pair<List<RuleResult>, RuleResult?> {
         val list = ArrayList<RuleResult>()
         for (item in this) {
             val result = item.evaluate(
                 facts,
-                RuleEvaluationOptions(
-                    engineOptions.upcastFactValues,
-                    engineOptions.undefinedFactEvaluationType,
-                    engineOptions.storeRuleEvaluationResults,
-                ),
+                engineEvaluationOptions.toRuleEvaluationOptions(),
             )
             list.add(result)
             when (engineOptions.evaluationType) {

@@ -40,34 +40,32 @@ class Rule @JvmOverloads constructor(
     ): RuleResult {
         val conditionResults = arrayListOf<ConditionResult>()
         return conditions.firstNotNullOfOrNull {
-            it.evaluate(
-                facts,
-                ruleEvaluationOptions.getConditionEvaluationOptions(),
-            ).collectInto(conditionResults).getRuleResultOrNull(conditionResults)
+            it.evaluate(facts, ruleEvaluationOptions.getConditionEvaluationOptions())
+                .collectIntoConditional(conditionResults, ruleEvaluationOptions.detailedEvaluationResults)
+                .getRuleResultOrNull(conditionResults)
+        } ?: when (options.conditionJoiner) {
+            ConditionJoiner.AND -> createSuccessResult(conditionResults)
+            ConditionJoiner.OR -> createFailureResult(conditionResults)
         }
-            ?: when (options.conditionJoiner) {
-                ConditionJoiner.AND -> createSuccessResult(conditionResults)
-                ConditionJoiner.OR -> createFailureResult(conditionResults)
-            }
     }
 
-    private fun ConditionResult.collectInto(list: MutableList<ConditionResult>): ConditionResult {
-        list.add(this)
+    private fun ConditionResult.collectIntoConditional(
+        list: MutableList<ConditionResult>, enabled: Boolean
+    ): ConditionResult {
+        if (enabled) list.add(this)
         return this
     }
 
     private fun ConditionResult.getRuleResultOrNull(conditionResults: List<ConditionResult>): RuleResult? {
-        when (this) {
+        return when (this) {
             is ConditionResult.Ok -> when (this.okValue) {
-                true -> if (options.conditionJoiner == ConditionJoiner.OR) return createSuccessResult(conditionResults)
-                false -> if (options.conditionJoiner == ConditionJoiner.AND) return createFailureResult(conditionResults)
+                true -> if (options.conditionJoiner == ConditionJoiner.OR) createSuccessResult(conditionResults) else null
+                false -> if (options.conditionJoiner == ConditionJoiner.AND) createFailureResult(conditionResults) else null
             }
 
-            is ConditionResult.Skipped -> return createSkippedResult(conditionResults, this.skipReason)
-            is ConditionResult.Error -> return createErrorResult(conditionResults, this.errorMessage)
+            is ConditionResult.Skipped -> createSkippedResult(conditionResults, this.skipReason)
+            is ConditionResult.Error -> createErrorResult(conditionResults, this.errorMessage)
         }
-
-        return null
     }
 
     private fun RuleEvaluationOptions.getConditionEvaluationOptions(): ConditionEvaluationOptions {
