@@ -1,10 +1,10 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Condition
+ * An operator and a fact that leads to a boolean output
  *
- * @property fact
- * @property operator
+ * @property fact the value to get from runtime facts
+ * @property operator the operator type leading to boolean result
  * @constructor Create empty Condition
  */
 class Condition(
@@ -12,11 +12,11 @@ class Condition(
     val operator: Operator
 ) {
     /**
-     * Evaluate
+     * Evaluate the condition against runtime facts
      *
-     * @param facts
-     * @param conditionEvaluationOptions
-     * @return
+     * @param facts data to evaluate condition against
+     * @param conditionEvaluationOptions options to use for condition evaluation
+     * @return condition evaluation result
      */
     fun evaluate(
         facts: MutableMap<String, Any?>,

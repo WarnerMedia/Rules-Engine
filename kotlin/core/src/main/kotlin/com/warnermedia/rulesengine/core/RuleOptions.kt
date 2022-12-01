@@ -1,13 +1,13 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Rule options
+ * Rule definition options
  *
- * @property conditionJoiner
- * @property enabled
- * @property startTime
- * @property endTime
- * @property priority
+ * @property conditionJoiner type of joiner for the rule's conditions
+ * @property enabled boolean for if the rule is enabled or not
+ * @property startTime start time for rule in epoch seconds
+ * @property endTime end time for rule in epoch seconds
+ * @property priority priority for the rule. higher mean more precedence
  * @constructor Create empty Rule options
  */
 data class RuleOptions(

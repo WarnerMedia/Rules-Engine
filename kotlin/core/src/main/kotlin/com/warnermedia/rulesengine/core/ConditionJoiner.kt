@@ -1,20 +1,20 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Condition joiner
+ * Type of join for the conditions in a rule
  *
  * @constructor Create empty Condition joiner
  */
 enum class ConditionJoiner {
     /**
-     * And
+     * Logical AND (&&) operator
      *
      * @constructor Create empty And
      */
     AND,
 
     /**
-     * Or
+     * Logical OR (||) operator
      *
      * @constructor Create empty Or
      */

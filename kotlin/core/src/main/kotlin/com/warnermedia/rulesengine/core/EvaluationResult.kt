@@ -1,10 +1,10 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Evaluation result
+ * Engine evaluation result
  *
- * @property ruleEvaluations
- * @property exitCriteria
+ * @property ruleEvaluations collection of rule evaluations
+ * @property exitCriteria exit criteria for
  * @constructor Create empty Evaluation result
  */
 data class EvaluationResult(val ruleEvaluations: List<RuleResult>, val exitCriteria: ExitCriteria)

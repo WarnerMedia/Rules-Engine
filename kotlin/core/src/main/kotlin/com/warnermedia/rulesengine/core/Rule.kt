@@ -3,12 +3,12 @@ package com.warnermedia.rulesengine.core
 import java.time.Instant
 
 /**
- * Rule
+ * A collection of conditions leading to a result
  *
- * @property id
- * @property conditions
- * @property result
- * @property options
+ * @property id Unique rule ID
+ * @property conditions Collection of conditions for the rule
+ * @property result Pair of values to be used for successful and failure results
+ * @property options options to define rule behavior
  * @constructor Create empty Rule
  */
 class Rule @JvmOverloads constructor(
@@ -18,11 +18,11 @@ class Rule @JvmOverloads constructor(
     val options: RuleOptions = RuleOptions()
 ) {
     /**
-     * Evaluate
+     * Evaluate the rule against runtime facts
      *
-     * @param facts
-     * @param ruleEvaluationOptions
-     * @return
+     * @param facts data to evaluate rule against
+     * @param ruleEvaluationOptions evaluation options to use for rule evaluation
+     * @return calculated rule result
      */
     fun evaluate(facts: MutableMap<String, Any?>, ruleEvaluationOptions: RuleEvaluationOptions): RuleResult {
         if (!options.enabled) {

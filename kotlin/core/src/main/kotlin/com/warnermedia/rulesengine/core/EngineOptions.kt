@@ -1,10 +1,10 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Engine options
+ * Engine definition options
  *
- * @property evaluationType
- * @property sortRulesByPriority
+ * @property evaluationType type of rule set evaluation
+ * @property sortRulesByPriority boolean to sort rules based on priority prior to execution
  * @constructor Create empty Engine options
  */
 data class EngineOptions(

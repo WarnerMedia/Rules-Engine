@@ -1,20 +1,26 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Exit criteria
+ * Exit criteria for engine evaluation
  *
  * @constructor Create empty Exit criteria
  */
 sealed class ExitCriteria {
     /**
-     * Early exit
+     * Early exit from engine evaluation
      *
      * @property ruleResult
      * @constructor Create empty Early exit
      */
     data class EarlyExit(val ruleResult: RuleResult) : ExitCriteria()
 
-    // todo: use `data object` starting kotlin 1.8
+    /**
+     * Normal exit from engine evaluation
+     *
+     * todo: use `data object` starting kotlin 1.8
+     *
+     * @constructor Create empty Normal exit
+     */
     object NormalExit : ExitCriteria() {
         override fun toString(): String {
             return "NormalExit"
@@ -24,7 +30,7 @@ sealed class ExitCriteria {
     /**
      * Is early exit
      *
-     * @return
+     * @return exit criteria is early exit
      */
     fun isEarlyExit(): Boolean {
         return this is EarlyExit
@@ -33,7 +39,7 @@ sealed class ExitCriteria {
     /**
      * Is normal exit
      *
-     * @return
+     * @return exit criteria is normal exit
      */
     fun isNormalExit(): Boolean {
         return this is NormalExit
