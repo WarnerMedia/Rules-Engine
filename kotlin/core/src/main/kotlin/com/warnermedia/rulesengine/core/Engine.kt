@@ -5,9 +5,8 @@ package com.warnermedia.rulesengine.core
  *
  * @property id rule engine ID
  * @property engineOptions options to define engine behavior
+ * @property rules collection of rules to be evaluated
  * @constructor
- *
- * @param rules collection of rules to be evaluated
  */
 class Engine @JvmOverloads constructor(
     val id: String,
@@ -21,7 +20,7 @@ class Engine @JvmOverloads constructor(
      *
      * @param facts data to evaluate engine against
      * @param engineEvaluationOptions options to use for engine evaluation
-     * @return
+     * @return evaluation result
      */
     fun evaluate(
         facts: MutableMap<String, Any?>,

@@ -7,7 +7,7 @@ package com.warnermedia.rulesengine.core
  */
 enum class OperatorType {
     /**
-     * Contained In
+     * Contained In operator
      *
      * @constructor Create empty Contained In
      */
@@ -29,7 +29,7 @@ enum class OperatorType {
     },
 
     /**
-     * Ends With
+     * Ends With operator
      *
      * @constructor Create empty Ends With
      */
@@ -47,7 +47,7 @@ enum class OperatorType {
     },
 
     /**
-     * Equals
+     * Equals operator
      *
      * @constructor Create empty Equals
      */
@@ -79,7 +79,7 @@ enum class OperatorType {
     },
 
     /**
-     * Greater Than
+     * Greater Than operator
      *
      * @constructor Create empty Greater Than
      */
@@ -104,7 +104,7 @@ enum class OperatorType {
     },
 
     /**
-     * Greater Than Equals
+     * Greater Than Equals operator
      *
      * @constructor Create empty Greater Than Equals
      */
@@ -131,7 +131,7 @@ enum class OperatorType {
     },
 
     /**
-     * Less Than
+     * Less Than operator
      *
      * @constructor Create empty Less Than
      */
@@ -156,7 +156,7 @@ enum class OperatorType {
     },
 
     /**
-     * Less Than Equals
+     * Less Than Equals operator
      *
      * @constructor Create empty Less Than Equals
      */
@@ -183,7 +183,7 @@ enum class OperatorType {
     },
 
     /**
-     * Not Equals
+     * Not Equals operator
      *
      * @constructor Create empty Not Equals
      */
@@ -220,7 +220,7 @@ enum class OperatorType {
      * @param operatorValue
      * @param valueFromFacts
      * @param evaluationOptions
-     * @return
+     * @return operator result
      */
     abstract fun evaluate(
         operatorValue: Any,
@@ -231,7 +231,7 @@ enum class OperatorType {
     /**
      * Cast to array
      *
-     * @return
+     * @return this as array
      */
     fun Any.castToArray(): Array<*>? {
         return this as? Array<*>
@@ -240,7 +240,7 @@ enum class OperatorType {
     /**
      * Cast to array list
      *
-     * @return
+     * @return this as arraylist
      */
     fun Any.castToArrayList(): ArrayList<*>? {
         return this as? ArrayList<*>
@@ -249,7 +249,7 @@ enum class OperatorType {
     /**
      * Cast to boolean
      *
-     * @return
+     * @return this as boolean
      */
     fun Any.castToBoolean(): Boolean? {
         return this as? Boolean
@@ -258,7 +258,7 @@ enum class OperatorType {
     /**
      * Cast to byte
      *
-     * @return
+     * @return this as byte
      */
     fun Any.castToByte(): Byte? {
         return this as? Byte
@@ -267,7 +267,7 @@ enum class OperatorType {
     /**
      * Cast to char
      *
-     * @return
+     * @return this as char
      */
     fun Any.castToChar(): Char? {
         return this as? Char
@@ -297,7 +297,7 @@ enum class OperatorType {
     /**
      * Cast to float
      *
-     * @return
+     * @return this as float
      */
     fun Any.castToFloat(): Float? {
         return this as? Float
@@ -306,7 +306,7 @@ enum class OperatorType {
     /**
      * Cast to hash map
      *
-     * @return
+     * @return this as hashmap
      */
     fun Any.castToHashMap(): HashMap<*, *>? {
         return this as? HashMap<*, *>
@@ -315,7 +315,7 @@ enum class OperatorType {
     /**
      * Cast to hash set
      *
-     * @return
+     * @return this as hashset
      */
     fun Any.castToHashSet(): HashSet<*>? {
         return this as? HashSet<*>
@@ -325,7 +325,7 @@ enum class OperatorType {
      * Cast to int
      *
      * @param upcast
-     * @return
+     * @return this as int
      */
     fun Any.castToInt(upcast: Boolean): Int? {
         return (this as? Int) ?: run {
@@ -347,7 +347,7 @@ enum class OperatorType {
      * Cast to long
      *
      * @param upcast
-     * @return
+     * @return this as long
      */
     fun Any.castToLong(upcast: Boolean): Long? {
         return (this as? Long) ?: run {
@@ -370,7 +370,7 @@ enum class OperatorType {
      * Cast to short
      *
      * @param upcast
-     * @return
+     * @return this as short
      */
     fun Any.castToShort(upcast: Boolean): Short? {
         return (this as? Short) ?: run {
@@ -390,7 +390,7 @@ enum class OperatorType {
     /**
      * Cast to string
      *
-     * @return
+     * @return this as string
      */
     fun Any.castToString(): String? {
         return this as? String
@@ -399,7 +399,7 @@ enum class OperatorType {
     /**
      * Get operator result
      *
-     * @return
+     * @return boolean as operator result
      */
     fun Boolean?.getOperatorResult(): OperatorResult {
         val badCastErrorMessage = "runtime cast error"

@@ -5,7 +5,7 @@ import com.warnermedia.rulesengine.core.Engine
 import java.io.File
 
 /**
- * Adapter
+ * JSON Adapter
  *
  * @constructor Create empty Adapter
  */
@@ -13,7 +13,7 @@ object Adapter {
     private val mapper = jacksonObjectMapper()
 
     /**
-     * Read from file
+     * Read engine instance from file
      *
      * @param path
      * @return
@@ -25,7 +25,7 @@ object Adapter {
     }
 
     /**
-     * Save to file
+     * Save engine instance to file
      *
      * @param engine
      * @param path

@@ -1,13 +1,13 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Skip reason
+ * Evaluation skip reason
  *
  * @constructor Create empty Skip reason
  */
 enum class SkipReason {
     /**
-     * Disabled Rule
+     * Evaluation skipped due to disabled rule
      *
      * @constructor Create empty Disabled Rule
      */
@@ -16,7 +16,7 @@ enum class SkipReason {
     },
 
     /**
-     * Inactive Rule
+     * Evaluation skipped due to rule not active
      *
      * @constructor Create empty Inactive Rule
      */
@@ -25,7 +25,7 @@ enum class SkipReason {
     },
 
     /**
-     * Undefined Fact
+     * Evaluation skipped due to undefined fact at runtime
      *
      * @constructor Create empty Undefined Fact
      */
@@ -36,7 +36,7 @@ enum class SkipReason {
     /**
      * Get skip message
      *
-     * @return
+     * @return skip message
      */
     abstract fun getSkipMessage(): String
 }
