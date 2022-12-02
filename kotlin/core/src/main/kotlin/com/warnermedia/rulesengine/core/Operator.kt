@@ -1,6 +1,10 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining an operation type along with the value to perform it against
+ * Operator with a type and a value to evaluate against
+ *
+ * @property operatorType operator type
+ * @property operatorValue operator value
+ * @constructor Create empty Operator
  */
 class Operator(val operatorType: OperatorType, val operatorValue: Any)

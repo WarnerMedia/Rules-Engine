@@ -1,8 +1,36 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Enum defining different ways an engine will evaluate the rule set
+ * Engine rule evaluation type
+ *
+ * @constructor Create empty Engine evaluation type
  */
 enum class EngineEvaluationType {
-    ALL, FIRST_ERROR, FIRST_FAILURE, FIRST_SUCCESS
+    /**
+     * Evaluate all rules
+     *
+     * @constructor Create empty All
+     */
+    ALL,
+
+    /**
+     * Evaluate rules until first error
+     *
+     * @constructor Create empty First Error
+     */
+    FIRST_ERROR,
+
+    /**
+     * Evaluate rules until first failure
+     *
+     * @constructor Create empty First Failure
+     */
+    FIRST_FAILURE,
+
+    /**
+     * Evaluate rules until first success
+     *
+     * @constructor Create empty First Success
+     */
+    FIRST_SUCCESS
 }

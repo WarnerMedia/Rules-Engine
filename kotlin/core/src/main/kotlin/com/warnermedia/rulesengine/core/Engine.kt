@@ -1,48 +1,69 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining a rules engine instance with an input rule set and other options
+ * Rule Engine to create a rule set for evaluation
+ *
+ * @property id rule engine ID
+ * @property engineOptions options to define engine behavior
+ * @property rules collection of rules to be evaluated
+ * @constructor
  */
 class Engine @JvmOverloads constructor(
     val id: String,
-    rules: ArrayList<Rule>,
-    val options: EngineOptions = EngineOptions()
+    rules: List<Rule>,
+    val engineOptions: EngineOptions = EngineOptions()
 ) {
-    val rules = if (options.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
+    val rules = if (engineOptions.sortRulesByPriority) rules.sortedByDescending { it.options.priority } else rules
 
-    fun evaluate(facts: HashMap<String, Any?>): EvaluationResult {
-        val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, options)
+    /**
+     * Evaluate engine against facts
+     *
+     * @param facts data to evaluate engine against
+     * @param engineEvaluationOptions options to use for engine evaluation
+     * @return evaluation result
+     */
+    fun evaluate(
+        facts: MutableMap<String, Any?>,
+        engineEvaluationOptions: EngineEvaluationOptions = EngineEvaluationOptions()
+    ): EvaluationResult {
+        val evaluationResult = rules.evaluateEngineRulesLatestInclusive(facts, engineEvaluationOptions)
+        val exitCriteria = when (val exitResult = evaluationResult.second) {
+            null -> ExitCriteria.NormalExit
+            else -> ExitCriteria.EarlyExit(exitResult)
+        }
+
         return EvaluationResult(
-            evaluationResult.first,
-            if (evaluationResult.second) {
-                ExitCriteria.EarlyExit(evaluationResult.first.last())
-            } else {
-                ExitCriteria.NormalExit()
-            },
+            evaluationResult.first, exitCriteria,
+        )
+    }
+
+    private fun EngineEvaluationOptions.toRuleEvaluationOptions(): RuleEvaluationOptions {
+        return RuleEvaluationOptions(
+            this.upcastFactValues,
+            this.undefinedFactEvaluationType,
+            this.storeRuleEvaluationResults,
+            this.detailedEvaluationResults,
         )
     }
 
     private fun Iterable<Rule>.evaluateEngineRulesLatestInclusive(
-        facts: HashMap<String, Any?>, engineOptions: EngineOptions
-    ): Pair<ArrayList<RuleResult>, Boolean> {
+        facts: MutableMap<String, Any?>,
+        engineEvaluationOptions: EngineEvaluationOptions
+    ): Pair<List<RuleResult>, RuleResult?> {
         val list = ArrayList<RuleResult>()
         for (item in this) {
             val result = item.evaluate(
                 facts,
-                RuleEvaluationOptions(
-                    engineOptions.upcastFactValues,
-                    engineOptions.undefinedFactEvaluationType,
-                    engineOptions.storeRuleEvaluationResults,
-                ),
+                engineEvaluationOptions.toRuleEvaluationOptions(),
             )
             list.add(result)
             when (engineOptions.evaluationType) {
-                EngineEvaluationType.FIRST_ERROR -> if (result.isError()) return Pair(list, true)
-                EngineEvaluationType.FIRST_FAILURE -> if (result.isFailure()) return Pair(list, true)
-                EngineEvaluationType.FIRST_SUCCESS -> if (result.isSuccess()) return Pair(list, true)
+                EngineEvaluationType.FIRST_ERROR -> if (result.isError()) return Pair(list, result)
+                EngineEvaluationType.FIRST_FAILURE -> if (result.isFailure()) return Pair(list, result)
+                EngineEvaluationType.FIRST_SUCCESS -> if (result.isSuccess()) return Pair(list, result)
                 else -> Unit
             }
         }
-        return Pair(list, false)
+        return Pair(list, null)
     }
 }

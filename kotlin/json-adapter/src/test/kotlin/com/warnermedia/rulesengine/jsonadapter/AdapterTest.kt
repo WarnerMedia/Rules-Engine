@@ -23,9 +23,21 @@ internal class AdapterTest {
     fun testPersistence() {
         Adapter.saveToFile(engine, "engine.json")
         val engineFromFile = Adapter.readFromFile("engine.json")
-        val result = engineFromFile.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
-        assertEquals<ArrayList<RuleResult>>(
-            arrayListOf(RuleResult.Success("good-weather", "good-weather-day")),
+        val result = engineFromFile.evaluate(
+            hashMapOf("temperature" to 75, "rainfall" to 0),
+            EngineEvaluationOptions(detailedEvaluationResults = true),
+        )
+        assertEquals(
+            arrayListOf(
+                RuleResult.Success(
+                    "good-weather",
+                    arrayListOf(
+                        ConditionResult.Ok("temperature", OperatorType.GREATER_THAN.name, 70, true),
+                        ConditionResult.Ok("rainfall", OperatorType.EQUALS.name, 0, true),
+                    ),
+                    "good-weather-day",
+                ),
+            ),
             result.ruleEvaluations,
         )
     }
