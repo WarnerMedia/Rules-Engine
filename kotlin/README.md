@@ -8,8 +8,8 @@ Next generation rules engine - `Rules-Engine` is written in Kotlin.
 
 Requires:
 - [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-- [Kotlin 1.7.20](https://kotlinlang.org/docs/command-line.html)
-- [Gradle 7.4.2](https://gradle.org/install/)
+- [Kotlin 1.7.21](https://kotlinlang.org/docs/command-line.html)
+- [Gradle 7.5.1](https://gradle.org/install/)
 
 ### Relevant commands
 

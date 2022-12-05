@@ -1,13 +1,13 @@
 package com.warnermedia.rulesengine.core
 
 /**
- * Class defining properties for a rules engine instance.
- * Mostly to be utilized during runtime fact evaluation
+ * Engine definition options
+ *
+ * @property evaluationType type of rule set evaluation
+ * @property sortRulesByPriority boolean to sort rules based on priority prior to execution
+ * @constructor Create empty Engine options
  */
-class EngineOptions(
+data class EngineOptions(
     val evaluationType: EngineEvaluationType = EngineEvaluationType.ALL,
     val sortRulesByPriority: Boolean = false,
-    val upcastFactValues: Boolean = false,
-    val undefinedFactEvaluationType: UndefinedFactEvaluation = UndefinedFactEvaluation.EVALUATE_TO_SKIPPED,
-    val storeRuleEvaluationResults: Boolean = false
 )
