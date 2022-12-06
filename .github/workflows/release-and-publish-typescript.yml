@@ -38,6 +38,7 @@ jobs:
         id: get-release-tag
         shell: bash
         run: echo "::set-output name=release-tag::v$(jq -r .version package.json)"
+        run: echo "release-tag=v$(jq -r .version package.json)" >> $GITHUB_OUTPUT
       - name: Create GitHub release
         shell: bash
         run: gh release create $RELEASE_TAG-typescript
