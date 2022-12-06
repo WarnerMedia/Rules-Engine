@@ -1,5 +1,5 @@
 plugins {
-    id("rulesengine.kotlin-library-conventions")
+    `kotlin-library-conventions`
 }
 
 val packageGroupId: String by project
