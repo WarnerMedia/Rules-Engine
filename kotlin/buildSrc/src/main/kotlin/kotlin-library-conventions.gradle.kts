@@ -1,5 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val packageGroupId: String by project
+val packageVersionId: String by project
+
+group = packageGroupId
+version = packageVersionId
+
 plugins {
     kotlin("jvm")
     `maven-publish`
