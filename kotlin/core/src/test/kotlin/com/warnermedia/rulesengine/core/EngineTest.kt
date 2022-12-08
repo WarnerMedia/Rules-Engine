@@ -19,19 +19,64 @@ internal class EngineTest {
     )
 
     @Test
-    fun testSuccessfulResult() {
+    fun testSuccessfulEvaluation() {
         val result = engine.evaluate(hashMapOf("temperature" to 75, "rainfall" to 0))
-        assertEquals<ArrayList<RuleResult>>(
-            arrayListOf(RuleResult.Success("good-weather", "good-weather-day")),
+        assertEquals(
+            arrayListOf(
+                RuleResult.Success("good-weather", arrayListOf(), "good-weather-day"),
+            ),
             result.ruleEvaluations,
         )
     }
 
     @Test
-    fun testFailureResult() {
+    fun testSuccessfulEvaluationWithDetailedResult() {
+        val result = engine.evaluate(
+            hashMapOf("temperature" to 75, "rainfall" to 0),
+            EngineEvaluationOptions(detailedEvaluationResults = true),
+        )
+        assertEquals(
+            arrayListOf(
+                RuleResult.Success(
+                    "good-weather",
+                    arrayListOf(
+                        ConditionResult.Ok("temperature", OperatorType.GREATER_THAN.name, 70, true),
+                        ConditionResult.Ok("rainfall", OperatorType.EQUALS.name, 0, true),
+                    ),
+                    "good-weather-day",
+                ),
+            ),
+            result.ruleEvaluations,
+        )
+    }
+
+    @Test
+    fun testFailureEvaluation() {
         val result = engine.evaluate(hashMapOf("temperature" to 60, "rainfall" to 0))
-        assertEquals<ArrayList<RuleResult>>(
-            arrayListOf(RuleResult.Failure("good-weather", "work-from-home-day")),
+        assertEquals(
+            arrayListOf(
+                RuleResult.Failure("good-weather", arrayListOf(), "work-from-home-day"),
+            ),
+            result.ruleEvaluations,
+        )
+    }
+
+    @Test
+    fun testFailureEvaluationWithDetailedEvaluation() {
+        val result = engine.evaluate(
+            hashMapOf("temperature" to 60, "rainfall" to 0),
+            EngineEvaluationOptions(detailedEvaluationResults = true),
+        )
+        assertEquals(
+            arrayListOf(
+                RuleResult.Failure(
+                    "good-weather",
+                    arrayListOf(
+                        ConditionResult.Ok("temperature", OperatorType.GREATER_THAN.name, 70, false),
+                    ),
+                    "work-from-home-day",
+                ),
+            ),
             result.ruleEvaluations,
         )
     }

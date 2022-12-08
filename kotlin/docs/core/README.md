@@ -9,10 +9,7 @@ Optional values to be passed during engine creation. If not passed, each one use
 ```kotlin
 class EngineOptions(
     val evaluationType: EngineEvaluationType = EngineEvaluationType.ALL,
-    val sortRulesByPriority: Boolean = false,
-    val upcastFactValues: Boolean = false,
-    val undefinedFactEvaluationType: UndefinedFactEvaluation = UndefinedFactEvaluation.EVALUATE_TO_SKIPPED,
-    val storeRuleEvaluationResults: Boolean = false
+    val sortRulesByPriority: Boolean = false
 )
 ```
 
@@ -20,12 +17,6 @@ class EngineOptions(
 can be used to short-circuit evaluation upon first success/failure
 - `sortRulesByPriority` - Arrange rules in descending order of priority before evaluation.
 Defaults to `false`
-- `upcastFactValues` - Upcast values at runtime to the type of the operator value (if possible).
-Defaults to `false`
-- `undefinedFactEvaluationType` - Evaluation criteria for facts not defined at runtime. Defaults
-to treating them as 'skipped'. Can be instead treated as success/failure
-- `storeRuleEvaluationResults` - Store result of rule evaluations to be used in condition for
-other rules. Defaults to `false`
 
 ## Rule
 
@@ -98,5 +89,5 @@ val evaluationResult =
 
 
 // evaluationResult
-// [sunny-day -> FAILURE: false, rainy-day -> FAILURE: false, cold-day -> FAILURE: false]
+// EvaluationResult(ruleEvaluations=[Failure(ruleId=sunny-day, conditionResults=[], failureValue=false), Failure(ruleId=rainy-day, conditionResults=[], failureValue=false), Failure(ruleId=cold-day, conditionResults=[], failureValue=false)], exitCriteria=NormalExit)
 ```

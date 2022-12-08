@@ -1,5 +1,8 @@
 plugins {
-    id("rulesengine.kotlin-library-conventions")
+    `kotlin-library-conventions`
+    `kotlin-dokka-conventions`
+    kotlin("jvm")
+    id("org.jetbrains.dokka")
 }
 
 repositories {
@@ -11,16 +14,10 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
 }
 
-val packageGroupId: String by project
-val packageVersionId: String by project
-
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = packageGroupId
             artifactId = "rulesengine-jsonadapter"
-            version = packageVersionId
-
             from(components["java"])
         }
     }

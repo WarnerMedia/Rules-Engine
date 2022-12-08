@@ -32,7 +32,7 @@ jobs:
     - name: Get release tag
       id: get-release-tag
       shell: bash
-      run: echo "::set-output name=release-tag::v$(grep "packageVersionId=" gradle.properties | cut -d '=' -f 2)"
+      run: echo "release-tag=v$(grep "packageVersionId=" gradle.properties | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
     - name: Create GitHub release
       shell: bash
       run: gh release create $RELEASE_TAG-kotlin
