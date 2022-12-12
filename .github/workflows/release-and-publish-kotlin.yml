@@ -86,5 +86,5 @@ jobs:
       with:
         java-version: 17
         distribution: temurin
-    - name: Build package
-      run: ./gradlew clean build
+    - name: Test package
+      run: ./gradlew clean test
