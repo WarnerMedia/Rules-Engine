@@ -42,8 +42,9 @@ jobs:
       id: create-release
       shell: bash
       run: |
-        gh release create $RELEASE_TAG-kotlin
-        echo "release-success=true" >> $GITHUB_OUTPUT
+        gh release create $RELEASE_TAG-kotlin && \
+          (echo "release-success=true" >> $GITHUB_OUTPUT) || \
+          (echo "release-success=false" >> $GITHUB_OUTPUT)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         RELEASE_TAG: ${{ steps.get-release-tag.outputs.release-tag }}
