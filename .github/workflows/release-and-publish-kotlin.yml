@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    paths:
+      - 'kotlin/**'
 
 jobs:
   build:
@@ -27,6 +30,8 @@ jobs:
     defaults:
       run:
         working-directory: kotlin
+    outputs:
+      release-success: ${{ steps.create-release.outputs.release-success }}
     steps:
     - uses: actions/checkout@v3
     - name: Get release tag
@@ -34,10 +39,13 @@ jobs:
       shell: bash
       run: echo "release-tag=v$(grep "packageVersionId=" gradle.properties | cut -d '=' -f 2)" >> $GITHUB_OUTPUT
     - name: Create GitHub release
+      id: create-release
       shell: bash
-      run: gh release create $RELEASE_TAG-kotlin
+      run: |
+        gh release create $RELEASE_TAG-kotlin
+        echo "release-success=true" >> $GITHUB_OUTPUT
       env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         RELEASE_TAG: ${{ steps.get-release-tag.outputs.release-tag }}
 
   publish-gpr:
@@ -46,6 +54,9 @@ jobs:
     defaults:
       run:
         working-directory: kotlin
+    if: ${{ needs.create-gh-release.outputs.release-success }} == "true"
+    outputs:
+      publish-success: ${{ steps.publish-package.outputs.publish-success }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -54,6 +65,26 @@ jobs:
         java-version: 17
         distribution: temurin
     - name: Publish package
-      run: ./gradlew clean publish
+      id: publish-package
+      run: |
+        ./gradlew clean publish
+        echo "publish-success=true" >> $GITHUB_OUTPUT
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  acceptance-test:
+    needs: publish-gpr
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kotlin/core-test
+    if: ${{ needs.publish-gpr.outputs.publish-success }} == "true"
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: 17
+        distribution: temurin
+    - name: Build package
+      run: ./gradlew clean build
