@@ -1,0 +1,42 @@
+name: pull request
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - unlabeled
+      - reopened
+
+permissions: read-all
+
+jobs:
+  attach_labels:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v4
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
+  check_labels:
+    runs-on: ubuntu-latest
+    needs: [ attach_labels ]
+    steps:
+      - uses: satvik-s/pr-label-check@1.0.0
+        with:
+          labels: Kotlin,TypeScript
+          type: any_of
+
+  check_title:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: PR Title Verify
+        uses: satvik-s/pr-title-check@1.1.0
+        with:
+          pattern: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])+([\s\S]*)'
