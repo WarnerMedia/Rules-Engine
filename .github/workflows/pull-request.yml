@@ -23,15 +23,6 @@ jobs:
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  check_labels:
-    runs-on: ubuntu-latest
-    needs: [ attach_labels ]
-    steps:
-      - uses: satvik-s/pr-label-check@1.0.0
-        with:
-          labels: Kotlin,TypeScript
-          type: any_of
-
   check_title:
     runs-on: ubuntu-latest
     steps:
