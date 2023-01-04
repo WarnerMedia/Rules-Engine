@@ -1,0 +1,5 @@
+Kotlin:
+  - "kotlin/**/*"
+
+TypeScript:
+  - "typescript/**/*"

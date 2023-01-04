@@ -1,4 +1,5 @@
-name: PR title check
+name: pull request
+
 on:
   pull_request:
     types:
@@ -12,11 +13,21 @@ on:
 permissions: read-all
 
 jobs:
+  attach_labels:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v4
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
   check_title:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: PR Title Verify
-        uses: satvik-s/pr-title-check@1.0.2
+        uses: satvik-s/pr-title-check@1.1.0
         with:
           pattern: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])+([\s\S]*)'
